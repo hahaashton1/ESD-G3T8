@@ -54,7 +54,11 @@ CREATE TABLE DriverJobs (JobID VARCHAR(20),
 						primary key (JobID, DID),
                         FOREIGN KEY (JobID) references Jobs(JobID),
                         FOREIGN KEY (DID) references DriverInfo(DID));                   
-					
+
+insert into DriverInfo values ('D0001','Hungry Heng'),
+							('D0002', 'Sleepy AlwaysDoNightShift'),
+                            ('D0003', 'Speedy Gonzales');
+
 
 #############################################################
 
