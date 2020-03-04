@@ -43,6 +43,7 @@ use 200cc_delivery;
 
 CREATE TABLE DriverInfo (DID VARCHAR(10), 
 						DName VARCHAR(40),
+                        Available boolean,
 						primary key (DID));
                         
 create table Jobs (JobID varchar(20) primary key,
@@ -55,9 +56,9 @@ CREATE TABLE DriverJobs (JobID VARCHAR(20),
                         FOREIGN KEY (JobID) references Jobs(JobID),
                         FOREIGN KEY (DID) references DriverInfo(DID));                   
 
-insert into DriverInfo values ('D0001','Hungry Heng'),
-							('D0002', 'Sleepy AlwaysDoNightShift'),
-                            ('D0003', 'Speedy Gonzales');
+insert into DriverInfo values ('D0001','Hungry Heng', True),
+							('D0002', 'Sleepy AlwaysDoNightShift', True),
+                            ('D0003', 'Speedy Gonzales', True);
 
 
 #############################################################
