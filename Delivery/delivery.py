@@ -29,7 +29,7 @@ def get_driver(driverid):
     if this_driver:
         return json.dumps({"did": this_driver.did, "name": this_driver.dname})
     else:
-        return "No record found"
+        return json.dumps({"error": driverid+" not found"})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
