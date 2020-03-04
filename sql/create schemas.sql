@@ -1,9 +1,5 @@
-#NOTE#
-#
-# you dont need to create all the schema on your local machine. just create whatever schema is necessary for the microservice you are working on
-# any problems lemme know :) @tsueanne (Telegram)
-#
 
+#create inventory DB
 CREATE SCHEMA 200cc_inventory;
 
 use 200cc_inventory;
@@ -22,32 +18,43 @@ CREATE TABLE ProductPrice (PID VARCHAR(10),
 							Price FLOAT(6,2),
                             primary key (PID));
                             
-CREATE TABLE DriverInfo (DID VARCHAR(10), 
-						DName VARCHAR(40),
-						primary key (DID));
+CREATE TABLE Customer (CID VARCHAR(10), 
+						CName VARCHAR(40),Address varchar(100),
+                        CCNo VARCHAR(20),
+                        CVV VARCHAR(3),
+						Phone VARCHAR(20),
+						primary key (CID));
                         
 CREATE TABLE OrderInfo (OrderID VARCHAR(20),
 						CID varchar(10),
                         PID varchar(10),
+                        Quantity SMALLINT,
                         Address varchar(100),
-                        DriverID varchar(10),
                         primary key (OrderID),
-						FOREIGN KEY (DriverID) REFERENCES DriverInfo(DID),
-                        FOREIGN KEY (PID) references ProductPrice(PID)
+                        FOREIGN KEY (PID) references ProductPrice(PID),
+						FOREIGN KEY (CID) references Customer(CID)
                         );
                         
 #############################################################
 
-CREATE SCHEMA 200cc_customer;
+CREATE SCHEMA 200cc_delivery;
 
-use 200cc_customer;
+use 200cc_delivery;
 
-CREATE TABLE Customer (CID VARCHAR(10), 
-						CName VARCHAR(40),
-                        CCNo VARCHAR(20),
-                        Address VARCHAR(100),
-						Phone VARCHAR(20),
-						primary key (CID));
+CREATE TABLE DriverInfo (DID VARCHAR(10), 
+						DName VARCHAR(40),
+						primary key (DID));
+                        
+create table Jobs (JobID varchar(20) primary key,
+					OrderID varchar(20),
+					Address varchar(100));
+                        
+CREATE TABLE DriverJobs (JobID VARCHAR(20),
+						DID VARCHAR(10),
+						primary key (JobID, DID),
+                        FOREIGN KEY (JobID) references Jobs(JobID),
+                        FOREIGN KEY (DID) references DriverInfo(DID));                   
+					
 
 #############################################################
 
