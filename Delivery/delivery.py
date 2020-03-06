@@ -1,26 +1,26 @@
 #### DELIVERY MS ####
-# 
-# POST URL http://127.0.0.1:5001/getdriverinfo/<driverid> returns JSON Object {"did": <driverID>, "name": <driverName>}
-# POST URL http://127.0.0.1:5001/allocatedriver/<orderid> returns JSON Object {"did": <driverID of allocated driver>}
-#          it does not do anything with the orderid as yet.
-#           SORRY! I GOT TO REWRITE THE ALLOCATEDDRIVER FOR TOPIC MSG, pls dont use
-#
-# Thats all I've done at the moment, continue it later. Feel free to use for reference.
-#
-
-import functions
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import random
+import pika
 import json
-from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_delivery'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-CORS(app)
+
+hostname = "localhost"
+port = 5672
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+
+channel = connection.channel()
+
+exchangename="delivery_exchange"
+channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
 class Driver_Info(db.Model):
     __tablename__= 'driverinfo'
@@ -29,26 +29,40 @@ class Driver_Info(db.Model):
     dname=db.Column(db.String(40),nullable=False)
     available=db.Column(db.Boolean, nullable=False)
 
-@app.route("/getdriverinfo/<string:driverid>", methods=['POST'])
-def get_driver_information(driverid):
-    this_driver=Driver_Info.query.filter(Driver_Info.did==driverid).first()
+def initiate_listening():
+    channelqueue=channel.queue_declare(queue="delivery", durable=True)
+    queue_name=channelqueue.method.queue
+    channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='delivery')
+
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True) 
+    channel.start_consuming()
+
+def validateDriver(driver_id):
+    print("Driver " +driver_id+ " is attempting to connect.")
+    this_driver=Driver_Info.query.filter(Driver_Info.did==str(driver_id)).first()
     if this_driver:
-        return json.dumps({"did": this_driver.did, "name": this_driver.dname})
+        print("Driver " +driver_id+ " successfully connected.")
+        channel.queue_declare(queue="driver", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="driver", routing_key=driver_id+".driver")
+        channel.basic_publish(exchange=exchangename, routing_key=driver_id+".driver", body=json.dumps(["validate",True]),
+            properties=pika.BasicProperties(delivery_mode=2))
     else:
-        return json.dumps({"error": driverid+" not found"})
+        #send it back not ok
+        print("Driver " +driver_id+ " authentication failed.")
+        print("Driver " +driver_id+ " left.")
+        channel.queue_declare(queue="driver", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="driver", routing_key=driver_id+".driver")        
+        channel.basic_publish(exchange=exchangename, routing_key=driver_id+".driver", body=json.dumps(["validate",False]),
+            properties=pika.BasicProperties(delivery_mode=2))
 
-# NEED TO REWRITE THIS FOR TOPIC MSG! SORRY! BUT LEAVE THIS WORKING CODE HERE FOR REFERENCE 
-#this function does nothing with the orderid as of now
-# @app.route("/allocatedriver/<string:orderid>", methods=['POST'])
-# def allocate_driver(orderid):
-#     driver_arr=[]
-#     available_drivers = Driver_Info.query.with_entities(Driver_Info.did).filter(Driver_Info.available==True)
-#     for i in available_drivers:
-#         driver_arr.append(i[0])
-#     if driver_arr:
-#         return json.dumps({"did": functions.allocateDriver(driver_arr)})
-#     else:
-#         return json.dumps({"error": "No driver available"})
+def callback(channel, method, properties, body): 
+    raw_message=json.loads(body)
+    key=raw_message[0]
+    message=raw_message[1]
+    if (key=='validate'):
+        validateDriver(message)
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=True)
+if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
+    print("WELCOME TO DELIVERY MS")
+    initiate_listening()
