@@ -43,22 +43,21 @@ use 200cc_delivery;
 
 CREATE TABLE DriverInfo (DID VARCHAR(10), 
 						DName VARCHAR(40),
-                        Available boolean,
+                        DStatus VARCHAR(10),
 						primary key (DID));
                         
-create table Jobs (JobID varchar(20) primary key,
+create table Jobs (JobID integer auto_increment primary key,
 					OrderID varchar(20),
-					Address varchar(100));
-                        
-CREATE TABLE DriverJobs (JobID VARCHAR(20),
-						DID VARCHAR(10),
-						primary key (JobID, DID),
-                        FOREIGN KEY (JobID) references Jobs(JobID),
-                        FOREIGN KEY (DID) references DriverInfo(DID));                   
+					Address varchar(100),
+                    DID VARCHAR(10),
+                    Completed boolean,
+                    FOREIGN KEY (DID) references DriverInfo(DID)
+                    );
+                                       
 
-insert into DriverInfo values ('D0001','Hungry Heng', True),
-							('D0002', 'Sleepy AlwaysDoNightShift', True),
-                            ('D0003', 'Speedy Gonzales', True);
+insert into DriverInfo values ('D0001','Hungry Heng', 'Offline'),
+							('D0002', 'Sleepy AlwaysDoNightShift', 'Offline'),
+                            ('D0003', 'Speedy Gonzales', 'Offline');
 
 
 #############################################################
