@@ -2,6 +2,7 @@
 
 import pika
 import json
+import atexit
 
 hostname="localhost"
 port=5672
@@ -10,6 +11,14 @@ connection=pika.BlockingConnection(pika.ConnectionParameters(host=hostname,port=
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
+def complete_job(orderid):
+    channel.queue_declare(queue="delivery", durable=True)
+    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
+    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["completed",[userid,orderid]]),
+        properties=pika.BasicProperties(delivery_mode=2))
+    print("Job completed! Thank you.")
+    print("Waiting for new job....")
 
 def callback(channel, method, properties, body): 
     raw_message=json.loads(body)
@@ -21,6 +30,14 @@ def callback(channel, method, properties, body):
         if (not message):
             print("Invalid user. Goodbye!")
             connection.close()
+    elif key=="order":
+        orderid=message[0]
+        address=message[1]
+        print("Order", orderid, "has been assigned to you.")
+        print("Address:", address)
+        a = input('Press any key when you have completed the job')
+        if a:
+            complete_job(orderid)
 
 def receive_message():
     channelqueue = channel.queue_declare(queue="driver_"+userid, durable=True)
@@ -36,7 +53,14 @@ def send_validate(userid):
     channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["validate",userid]),
         properties=pika.BasicProperties(delivery_mode=2))
 
-    return True
+def terminate():
+    channel.queue_declare(queue="delivery", durable=True)
+    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
+    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["exit",userid]),
+        properties=pika.BasicProperties(delivery_mode=2))
+    connection.close()
+
+atexit.register(terminate)
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     print("WELCOME TO DRIVER MS")
