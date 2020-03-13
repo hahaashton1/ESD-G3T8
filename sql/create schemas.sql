@@ -66,8 +66,26 @@ CREATE SCHEMA 200cc_deliverypricing;
 
 use 200cc_deliverypricing;
 
-CREATE TABLE DistancePrice (distance float(6,2),
-							price float(6,2));
+CREATE TABLE DistancePrice (Postal_Sector varchar(2),
+							Region_Name varchar(100),
+							Price float(6,2));
+
+insert into DistancePrice (Postal_Sector, Region_Name, Price)
+						values ('01','Raffles Place',2.50),
+								('07','Anson',2.70),
+                                ('14','Queenstown',3.20),
+                                ('10','Harbourfront',3.40),
+                                ('11','Pasir Panjang',4.00),
+                                ('17','High Street',3.70),
+                                ('20','Little India',3.30),
+                                ('22','Orchard',2.80),
+                                ('25','Bukit Timah',4.40),
+                                ('30','Thomson',3.50),
+                                ('31','Balestier',3.60),
+                                ('46','Bedok',4.20),
+                                ('51','Tampines',4.70);
+                                
+                                
                             
                         
 
