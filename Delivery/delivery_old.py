@@ -8,8 +8,6 @@
 # Thats all I've done at the moment, continue it later. Feel free to use for reference.
 #
 
-import functions
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
