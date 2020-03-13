@@ -35,18 +35,16 @@ def get_driver_information(driverid):
     else:
         return json.dumps({"error": driverid+" not found"})
 
-# NEED TO REWRITE THIS FOR TOPIC MSG! SORRY! BUT LEAVE THIS WORKING CODE HERE FOR REFERENCE 
-#this function does nothing with the orderid as of now
-# @app.route("/allocatedriver/<string:orderid>", methods=['POST'])
-# def allocate_driver(orderid):
-#     driver_arr=[]
-#     available_drivers = Driver_Info.query.with_entities(Driver_Info.did).filter(Driver_Info.available==True)
-#     for i in available_drivers:
-#         driver_arr.append(i[0])
-#     if driver_arr:
-#         return json.dumps({"did": functions.allocateDriver(driver_arr)})
-#     else:
-#         return json.dumps({"error": "No driver available"})
+@app.route("/allocatedriver/<string:orderid>", methods=['POST'])
+def allocate_driver(orderid):
+    driver_arr=[]
+    available_drivers = Driver_Info.query.with_entities(Driver_Info.did).filter(Driver_Info.available==True)
+    for i in available_drivers:
+        driver_arr.append(i[0])
+    if driver_arr:
+        return json.dumps({"some driver here i too lazy to write"})
+    else:
+        return json.dumps({"error": "No driver available"})
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
