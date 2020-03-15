@@ -11,13 +11,13 @@ CREATE TABLE Product (PID VARCHAR(10) primary key,
                     Price float(6,2));
 
 insert into Product (PID, PName, Quantity, Price)
-						values ('01', Chocolate, 15, 2.00),
-                        ('02', Stawberry, 36, 2.50),
-                        ('03', Vanilla, 42, 2.30),
-                        ('04', Coconut, 12, 2.30),
-                        ('05', Raspberry, 34, 2.30),
-                        ('06', Watermelon, 23, 2.90),
-                        ('07', Honeydew, 43, 2.90);
+						values ('01', 'Chocolate', 15, 2.00),
+                        ('02', 'Stawberry', 36, 2.50),
+                        ('03', 'Vanilla', 42, 2.30),
+                        ('04', 'Coconut', 12, 2.30),
+                        ('05', 'Raspberry', 34, 2.30),
+                        ('06', 'Watermelon', 23, 2.90),
+                        ('07', 'Honeydew', 43, 2.90);
 
 #############################################################
 DROP SCHEMA IF EXISTS 200cc_order;
