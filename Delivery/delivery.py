@@ -172,6 +172,4 @@ if __name__ == "__main__":  # execute this program only if it is run as a script
     p = multiprocessing.Process(target=worker_check_unassignedjobs, args=(incompletejobs,))
     p.start()
 
-    #initiate listening for messages in separate process
-    p2=multiprocessing.Process(target=initiate_listening())
-    p2.start()
+    initiate_listening()

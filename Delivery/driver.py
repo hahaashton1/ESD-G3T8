@@ -3,6 +3,8 @@
 import pika
 import json
 import atexit
+import multiprocessing
+import time
 
 hostname="localhost"
 port=5672
@@ -12,9 +14,9 @@ channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
+jobID=None
+
 def complete_job(orderid):
-    channel.queue_declare(queue="delivery", durable=True)
-    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
     channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["completed",[userid,orderid]]),
         properties=pika.BasicProperties(delivery_mode=2))
     print("Job completed! Thank you.")
@@ -35,9 +37,17 @@ def callback(channel, method, properties, body):
         address=message[1]
         print("Order", orderid, "has been assigned to you.")
         print("Address:", address)
-        a = input('Press any key when you have completed the job')
-        if a:
-            complete_job(orderid)
+        print("Simulated driving will occur for 10 seconds...")
+        timer=10
+        channel.queue_declare(queue="delivery", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
+        while (timer>0):
+            timer-=1
+            #have to keep sending message to stop pika from timing out
+            channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["heartbeat",""]), properties=pika.BasicProperties(delivery_mode=2))
+            time.sleep(1)
+            print(timer, "seconds more...")
+        complete_job(orderid)
 
 def receive_message():
     channelqueue = channel.queue_declare(queue="driver_"+userid, durable=True)
