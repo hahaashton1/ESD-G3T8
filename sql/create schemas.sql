@@ -1,15 +1,26 @@
 
 #create inventory DB
+DROP SCHEMA IF EXISTS 200cc_inventory;
 CREATE SCHEMA 200cc_inventory;
 
 use 200cc_inventory;
 
 CREATE TABLE Product (PID VARCHAR(10) primary key, 
 					PName VARCHAR(50), 
-                    Quantity SMALLINT);
+                    Quantity SMALLINT,
+                    Price float(6,2));
+
+insert into Product (PID, PName, Quantity, Price)
+						values ('01', 'Chocolate', 15, 2.00),
+                        ('02', 'Stawberry', 36, 2.50),
+                        ('03', 'Vanilla', 42, 2.30),
+                        ('04', 'Coconut', 12, 2.30),
+                        ('05', 'Raspberry', 34, 2.30),
+                        ('06', 'Watermelon', 23, 2.90),
+                        ('07', 'Honeydew', 43, 2.90);
 
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_order;
 CREATE SCHEMA 200cc_order;
 
 use 200cc_order;
@@ -36,7 +47,7 @@ CREATE TABLE OrderInfo (OrderID VARCHAR(20),
                         );
                         
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_delivery;
 CREATE SCHEMA 200cc_delivery;
 
 use 200cc_delivery;
@@ -61,13 +72,24 @@ insert into DriverInfo values ('D0001','Hungry Heng', 'Offline'),
 
 
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_deliverypricing;
 CREATE SCHEMA 200cc_deliverypricing;
 
 use 200cc_deliverypricing;
 
-CREATE TABLE DistancePrice (distance float(6,2),
-							price float(6,2));
+CREATE TABLE DistancePrice (
+							Region_Name varchar(100),
+							Price float(6,2)
+                            );
+
+insert into DistancePrice (Region_Name, Price)
+						values ('Central',2.50),
+								('East',2.70),
+                                ('North',3.20),
+                                ('North-East',3.40),
+                                ('West',4.00);
+                                
+                                
                             
                         
 

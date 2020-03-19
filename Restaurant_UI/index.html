@@ -3,13 +3,29 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" 
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="app.html.css">
 
     <title>Restaurant UI</title>
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
 
   </head>
   <body>
@@ -18,31 +34,20 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center marb-35">
-          <h1 class="header-h">Menu List</h1>
-          <p class="header-p">Welcome to 1 Cupcake </p>
-        </div>
+          <h1 class="header-h">Welcome to 1 Cupcake</h1>
+          <h2>Menu List</h2>  
 
-       <!-- <div class="col-md-12  text-center" id="menu-flters">
-          <ul>
-            <li><a class="filter active" data-filter=".menu-restaurant">Show All</a></li>
-            <li><a class="filter" data-filter=".breakfast">Breakfast</a></li>
-            <li><a class="filter" data-filter=".lunch">Lunch</a></li>
-            <li><a class="filter" data-filter=".dinner">Dinner</a></li>
-          </ul>
-        </div> -->
+          <!-- <div class="breakfast menu-restaurant "> -->
 
-        <div id="menu-wrapper">
-
-          <div class="breakfast menu-restaurant center">
-            <span class="clearfix">
-              <a class="menu-title" href="#" data-meal-img="assets/img/restaurant/rib.jpg">Food Item Name</a>
-              <span style="left: 166px; right: 44px;" class="menu-line"></span>
-              <span class="menu-price">$20.99</span>
+            <span class ="clearfix">
+              <a class="menu-title" style="bold" >Food Item Name:</a>
+              <a class="menu-price">Vanilla Cupcake</a>
             </span>
-            <span class="menu-subtitle">Neque porro quisquam est qui dolorem</span>
-            <img src="photo/cupcake.jpg center"  alt="cupcake" height="100" width="150">
-
+            <div>
+              <img src="photo/cupcake.jpg" class ="photo" alt="cupcake" height="200" width="250" >
+            </div>
             
+            </div>
           </div>
             </div>
         </div>
@@ -56,9 +61,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
-          <h1 class="header-h">Book Your table</h1>
-          <p class="header-p">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-            <br>nibh euismod tincidunt ut laoreet dolore magna aliquam. </p>
+          <h1 class="header-h">Place your order</h1>
+          <p class="header-p">Please fill in your order details</p>
         </div>
       </div>
       <div class="row msg-row">
@@ -86,7 +90,7 @@
           </div>
         </div>
         <div class="col-md-8 col-sm-8">
-          <form action="" method="post" role="form" class="contactForm">
+          <form id = "orderForm" action="" method="post" role="form" class="contactForm">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -102,6 +106,15 @@
                 <div class="validation"></div>
               </div>
             </div>
+
+            
+            <div class="col-md-6 col-sm-6 contact-form pad-form">
+              <div class="form-group label-floating is-empty">
+                <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
+                <div class="validation"></div>
+              </div>
+            </div>
+
             <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
                 <input type="address" class="form-control label-floating is-empty" name="address" id="address" placeholder="Address" data-rule="required" data-msg="This field is required" />
@@ -116,23 +129,46 @@
             </div>
             <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
-                <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="required" data-msg="This field is required" />
+                <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" />
                 <div class="validation"></div>
               </div>
             </div>
-            <div class="col-md-12 contact-form">
-              <div class="form-group label-floating is-empty">
-                <textarea class="form-control" name="message" rows="5" rows="3" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                <div class="validation"></div>
+        
+              <div class="col-md-6 col-sm-6 contact-form">
+              <div class="form-group">
+              <input list="delivery_pricing" placeholder="Delivery Pricing">
+                <datalist id="delivery_pricing" >
+                  <!-- <option value="Internet Explorer">
+                  <option value="Firefox">
+                  <option value="Chrome">
+                  <option value="Opera">
+                  <option value="Safari"> -->
+                </datalist>
               </div>
-
-            </div>
+              </div>  
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
-                <button class="contacts-btn">Book Table</button>
+                <button class="contacts-btn">Submit Order</button>
               </div>
             </div>
           </form>
+        </div>
+        </div>
+
+        <div id="main-container" class="container">
+        <h1 class="display-4">Delivery Pricing</h1>
+        <table id="priceTable" class='table table-striped' border='1'>
+            <thead class='thead-dark'>
+        <tr>
+            <th>Price</th>
+            <th>Region</th>
+        </tr>  
+    </table>
+    </div>  
+    <label id="error" class="text-danger"></label>
+  
+    </body>    
+
         </div>
       </div>
     </div>
@@ -169,29 +205,33 @@
   </footer>
   <!-- / footer -->
 
-  <script src="js/jquery.min.js"></script>
+  <!-- <script src="js/jquery.min.js"></script>
   <script src="js/jquery.easing.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="contactform/contactform.js"></script>
+ -->
 
+ <!-- Take the pricing from Pricing microservice using GET HTTP   -->
     <script>
+        // $("#priceTable").hide();
+
         // Helper function to display error message
         function showError(message) {
             // Hide the table and button in the event of error
-            $('#booksTable').hide();
-            $('#addBookBtn').hide();
-     
+            $("#priceTable").hide();
+            // $('#addBookBtn').hide();
+
             // Display an error under the main container
-            $('#main-container')
+            $("#main-container")
                 .append("<label>"+message+"</label>");
         }
      
         // anonymous async function 
         // - using await requires the function that calls it to be async
-        $(async() => {           
-            // Change serviceURL to your own
-            var serviceURL = "http://127.0.0.1:5000/book";
+          $(async() => { 
+              // Change serviceURL to your own
+            var serviceURL = "http://127.0.0.1:5000/delivery_pricing";
      
             try {
                 const response =
@@ -199,25 +239,32 @@
                    serviceURL, { method: 'GET' }
                 );
                 const data = await response.json();
-                var books = data.books; //the arr is in data.books of the JSON data
+                var prices = data.prices; //the arr is in data.books of the JSON data
      
                 // array or array.length are falsy
-                if (!books || !books.length) {
+                if (!prices || !prices.length) {
                     showError('Books list empty or undefined.')
-                } else {
+                } 
+                else {
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
-                    for (const book of books) {
+                    var foundPrice = "";
+
+                    for (const one_price of prices) {
                         eachRow =
-                            "<td>" + book.title + "</td>" +
-                            "<td>" + book.isbn13 + "</td>" +
-                            "<td>" + book.price + "</td>" +
-                            "<td>" + book.availability + "</td>";
+                            "<td>" + one_price.price + "</td>" +
+                            "<td>" + one_price.region_name + "</td>" ;
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+
+                        eachPrice = "<option value=" + one_price.price +">"
+                        foundPrice += eachPrice
                     }
                     // add all the rows to the table
-                    $('#booksTable').append(rows);
+                    $("#priceTable").append(rows);
+                    $("#delivery_pricing").append( foundPrice );
+
                 }
+
             } catch (error) {
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
@@ -227,6 +274,10 @@
         } // error
     });
 </script>
+
+
+<!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
+
 
 
   </body>
