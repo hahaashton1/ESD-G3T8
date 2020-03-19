@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-class DistancePrice(db.Model):
+class distancePrice(db.Model):
     __tablename__ = 'DistancePrice' 
  
     region_name = db.Column(db.String(2), primary_key=True)
@@ -17,16 +17,16 @@ class DistancePrice(db.Model):
 
  
     def __init__(self, region_name, price):
-        self.region_name = region_name
         self.price = price
+        self.region_name = region_name
 
  
     def json(self):
-        return {"region_name": self.region_name, "price": self.price} 
+        return { "price": self.price, "region_name": self.region_name,} 
 
 @app.route("/delivery_pricing")
 def get_all():
-	return jsonify({"prices": [DistancePrice.json() for prices in DistancePrice.query.all()]})
+	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
 
 # @app.route("/delivery_pricing/<string:postal>")
 # def find_by_postal(postal):
