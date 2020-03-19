@@ -54,11 +54,12 @@ def send_validate(userid):
         properties=pika.BasicProperties(delivery_mode=2))
 
 def terminate():
-    channel.queue_declare(queue="delivery", durable=True)
-    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
-    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["exit",userid]),
-        properties=pika.BasicProperties(delivery_mode=2))
-    connection.close()
+    if userid != None:
+        channel.queue_declare(queue="delivery", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
+        channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["exit",userid]),
+            properties=pika.BasicProperties(delivery_mode=2))
+        connection.close()
 
 atexit.register(terminate)
 
