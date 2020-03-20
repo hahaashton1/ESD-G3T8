@@ -9,6 +9,7 @@ import time
 import multiprocessing
 import atexit
 import datetime
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_delivery'
@@ -40,6 +41,7 @@ class Jobs(db.Model):
     Address=db.Column(db.String(100),nullable=False)
     did=db.Column(db.String(10),nullable=True)
     jstatus=db.Column(db.String, nullable=False) 
+    telegram=db.Column(db.String, nullable=True)
     starttime=db.Column(db.DateTime, nullable=True)
     endtime=db.Column(db.DateTime, nullable=False)
 
@@ -123,8 +125,9 @@ def callback(channel, method, properties, body):
     elif (key=="order"):
         thisorderid=message[0]
         thisaddress=message[1]
+        telegram=message[2]
         # insert order to database
-        newjob=Jobs(OrderID=thisorderid, Address=thisaddress, did=None, jstatus="Pending", starttime=datetime.datetime.now())
+        newjob=Jobs(OrderID=thisorderid, Address=thisaddress, did=None, jstatus="Pending", telegram=telegram, starttime=datetime.datetime.now())
         db.session.add(newjob)
         db.session.commit()
         print("Order recorded:", message)
@@ -144,6 +147,11 @@ def callback(channel, method, properties, body):
         thisJob.endtime=datetime.datetime.now()
         db.session.commit()
 
+        #notify user
+        if (thisJob.telegram):
+            error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
+            print(error)
+
 def worker_check_unassignedjobs(incompletejobs):
     while (True):
         ijobs=incompletejobs.value
@@ -155,8 +163,20 @@ def worker_check_unassignedjobs(incompletejobs):
             thisaddress=undonejob.Address
             print("Trying order", thisorderid, "again:", thisaddress)
             if (assign_driver_to_order(undonejob)):
+                
                 incompletejobs.value-=1
         time.sleep(8)
+
+def telegram_bot_sendtext(chatID, orderid, message):
+    
+    bot_token = '1145625143:AAEwff0ybTjbOrWDGOOrAXaN2OOpLZIFv5A'
+    bot_chatID = chatID
+    bot_message = orderid + ": " + message
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+
+    response = requests.get(send_text)
+
+    return response.json()
 
 #atexit.register()
 

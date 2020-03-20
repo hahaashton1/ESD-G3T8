@@ -7,6 +7,7 @@ import time
 import random
 
 orderaddresses=["1 Esplanade Dr, Singapore 038981", "Orchard Road, Singapore 238823", "38 Oxley Road, Singapore 238629"]
+telegram="485352799"
 
 hostname="localhost"
 port=5672
@@ -23,7 +24,7 @@ def trigger_order(): #temporary function to trigger order
 def send_order(ordernumber, address):
     channel.queue_declare(queue="delivery", durable=True)
     channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
-    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[ordernumber,address]]),
+    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[ordernumber,address,telegram]]),
         properties=pika.BasicProperties(delivery_mode=2))
     print("order", ordernumber, ":", address, "sent")
 
