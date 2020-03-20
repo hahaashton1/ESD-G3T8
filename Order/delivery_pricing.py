@@ -12,6 +12,7 @@ CORS(app)
 class distancePrice(db.Model):
     __tablename__ = 'DistancePrice' 
  
+    
     region_name = db.Column(db.String(2), primary_key=True)
     price = db.Column(db.Float(precision=2), nullable=False)
 
@@ -24,17 +25,17 @@ class distancePrice(db.Model):
     def json(self):
         return { "price": self.price, "region_name": self.region_name,} 
 
-@app.route("/delivery_pricing")
-def get_all():
-	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
+# @app.route("/delivery_pricing")
+# def get_all():
+# 	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
 
-# @app.route("/delivery_pricing/<string:postal>")
-# def find_by_postal(postal):
-#     postal = postal[:2] #Retrieve the Postal Sector (1st 2 digits of 6-digit postal codes)
-#     delivery_pricing = Delivery_pricing.query.filter_by(postal=postal).first()
-#     if delivery_pricing:
-#         return jsonify(delivery_pricing.json())
-#     return jsonify({"message": "Postal not found."}), 404
+@app.route("/delivery_pricing/<string:postal>")
+def find_by_postal(postal):
+    postal = postal[:2] #Retrieve the Postal Sector (1st 2 digits of 6-digit postal codes)
+    delivery_pricing = distancePrice.query.filter_by(postal=postal).first()
+    if delivery_pricing:
+        return jsonify(delivery_pricing.json())
+    return jsonify({"message": "Postal not found."}), 404
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
