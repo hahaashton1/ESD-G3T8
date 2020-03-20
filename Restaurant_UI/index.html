@@ -90,7 +90,7 @@
           </div>
         </div>
         <div class="col-md-8 col-sm-8">
-          <form id = "orderForm" action="" method="post" role="form" class="contactForm">
+          <form id = "orderForm" action="form_submission.html" method="post" role="form" class="contactForm">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -148,12 +148,15 @@
               </div>  
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
-                <button class="contacts-btn">Submit Order</button>
+                <button class = 'contacts-btn' >
+                <a id = 'submitBtn' href = 'form_submission.html'>Submit Order</a>
+              </button>
               </div>
             </div>
           </form>
         </div>
         </div>
+
 
         <div id="main-container" class="container">
         <h1 class="display-4">Delivery Pricing</h1>
@@ -273,6 +276,20 @@
            
         } // error
     });
+
+
+    // var name = getElementbyId("name");
+    // var email = getElementbyId("email");
+    // var quantity = getElementbyId("quantity");
+    // var address = getElementbyId("address");
+    // var postalCode = getElementbyId("postalCode");
+
+    // var queryString = "?para1=" + name + '&para2=' + email + '&para3=' + quantity + '&para4=' + address 
+    //     + '&para5=' + postalCode;
+
+    // window.location.href("form_submission.html" + queryString);
+
+    
 </script>
 
 
