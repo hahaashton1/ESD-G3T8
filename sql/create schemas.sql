@@ -51,6 +51,7 @@ create table Jobs (JobID integer auto_increment primary key,
 					Address varchar(100),
                     DID VARCHAR(10),
                     JStatus VARCHAR(10),
+                    telegram varchar(50),
                     StartTime Timestamp,
                     EndTime Timestamp,
                     FOREIGN KEY (DID) references DriverInfo(DID)
