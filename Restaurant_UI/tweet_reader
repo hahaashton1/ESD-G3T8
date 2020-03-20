@@ -1,0 +1,14 @@
+import csv
+
+tweetsList = []
+with open('cupcakeg1t8_tweets.csv') as csvfile:
+    reader = csv.reader(csvfile)
+
+    for row in reader:
+        tweetsList.append(row)
+
+    for eachTweet in tweetsList:
+        if not eachTweet:
+            tweetsList.remove(eachTweet)
+
+    print(tweetsList[-1])
