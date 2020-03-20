@@ -1,5 +1,6 @@
 
 #create inventory DB
+DROP SCHEMA IF EXISTS 200cc_inventory;
 CREATE SCHEMA 200cc_inventory;
 
 use 200cc_inventory;
@@ -9,7 +10,7 @@ CREATE TABLE Product (PID VARCHAR(10) primary key,
                     Quantity SMALLINT);
 
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_order;
 CREATE SCHEMA 200cc_order;
 
 use 200cc_order;
@@ -36,7 +37,7 @@ CREATE TABLE OrderInfo (OrderID VARCHAR(20),
                         );
                         
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_delivery;
 CREATE SCHEMA 200cc_delivery;
 
 use 200cc_delivery;
@@ -63,13 +64,23 @@ insert into DriverInfo values ('D0001','Hungry Heng', 'Offline'),
 
 
 #############################################################
-
+DROP SCHEMA IF EXISTS 200cc_deliverypricing;
 CREATE SCHEMA 200cc_deliverypricing;
 
 use 200cc_deliverypricing;
 
-CREATE TABLE DistancePrice (distance float(6,2),
-							price float(6,2));
+CREATE TABLE DistancePrice (Postal_Sector varchar(2),
+							Region_Name varchar(100),
+							Price float(6,2));
+
+LOAD DATA LOCAL INFILE 'C:/wamp64/www/ESD-G3T8/sql/delivery_pricing.csv' INTO TABLE DistancePrice
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\r\n' 
+IGNORE 1 LINES;                            
+
+
+
+
                             
                         
 
