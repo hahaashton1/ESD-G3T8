@@ -31,6 +31,12 @@
 
   <body>
   <!-- menu -->
+    <output id="tweeter">
+
+      file contents will appear here
+      
+    </output>
+  </section>
   <section id="menu-list" class="section-padding">
     <div class="container">
       <div class="row">
@@ -217,6 +223,23 @@
  -->
 
     <script>
+        // tweeter part is here
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", "cupcakeg1t8_tweets.csv", true);
+        rawFile.onreadystatechange = function ()
+        {
+            if(rawFile.readyState === 4)
+            {
+                if(rawFile.status === 200 || rawFile.status == 0)
+                {
+                    var allText = rawFile.responseText;
+                    document.getElementById('tweeter').value=allText
+                }
+            }
+        }
+        rawFile.send(null);
+        // tweeter part ends 
+
         // Helper function to display error message
         function showError(message) {
             // Hide the table and button in the event of error
@@ -285,7 +308,7 @@
     var data = [name, email, quantity, address, phone, postalCode];
     localStorage.setItem('objectToPass', data);
 
-
+    
 </script>
 
 
