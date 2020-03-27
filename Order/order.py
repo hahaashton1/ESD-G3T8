@@ -20,6 +20,14 @@ connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",po
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
+def send_order(order_id, address, telegram_id):
+    channel.queue_declare(queue="delivery", durable=True)
+    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
+    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[order_id,address, telegram_id]]),
+        properties=pika.BasicProperties(delivery_mode=2))
+    print("Order " + order_id + " was sent")
+
  
 class Order(db.Model):
     __tablename__ = 'orders'
@@ -37,27 +45,22 @@ def add_order():
 
     data = request.get_json()
     order = Order(**data)
-    
+
+
     try:
+
         db.session.add(order)
         db.session.commit()
+
+        ##last_item = Order.query.order_by(Order.order_id.desc()).first()
+        ##print(last_item)
         
-        send_order(str(order[0]), address[5], order[1]) ## Send order to delivery microservice
-        print("This is working")
-        
+        send_order("fuck", data["address"], data["telegram_id"]) ## Send order to delivery microservice
+
     except:
         return jsonify({"message": "An error occurred creating the order."}), 500
  
     return jsonify({"Order has been created!"}), 201
-
-
-
-def send_order(order_id, address, telegram_id):
-    channel.queue_declare(queue="delivery", durable=True)
-    channel.queue_bind(exchange=exchangename, queue="delivery", routing_key='delivery')
-    channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[order_id,address, telegram_id]]),
-        properties=pika.BasicProperties(delivery_mode=2))
-    print("Order " + order_id + " was sent")
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
