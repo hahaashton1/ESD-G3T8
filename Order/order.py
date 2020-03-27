@@ -31,7 +31,7 @@ def send_order(order_id, address, telegram_id):
  
 class Order(db.Model):
     __tablename__ = 'orders'
-    ##order_id = db.Column(db.Integer, primary_key = True)
+    order_id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     telegram_id = db.Column(db.Integer)
     email = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(200))
@@ -45,17 +45,18 @@ def add_order():
 
     data = request.get_json()
     order = Order(**data)
-
-
+    
     try:
 
         db.session.add(order)
         db.session.commit()
+        
+        orderid = Order.query.order_by(Order.order_id.desc()).first().order_id
 
         ##last_item = Order.query.order_by(Order.order_id.desc()).first()
         ##print(last_item)
         
-        send_order("fuck", data["address"], data["telegram_id"]) ## Send order to delivery microservice
+        send_order(orderid, data["address"], data["telegram_id"]) ## Send order to delivery microservice
 
     except:
         return jsonify({"message": "An error occurred creating the order."}), 500
