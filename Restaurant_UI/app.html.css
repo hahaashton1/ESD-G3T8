@@ -504,3 +504,15 @@ table {
       margin-bottom: 20px;
     }
   }
+
+
+.container {
+    float:left;
+    width:25%;
+    text-align:right;
+}
+
+.container input {
+    float:left;
+    width:65%;
+}
