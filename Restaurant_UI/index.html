@@ -26,11 +26,18 @@
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 
+  
 
   </head>
 
   <body>
   <!-- menu -->
+    <output id="tweeter">
+
+      file contents will appear here
+      
+    </output>
+  </section>
   <section id="menu-list" class="section-padding">
     <div class="container">
       <div class="row">
@@ -91,7 +98,7 @@
           </div>
         </div>
         <div class="col-md-8 col-sm-8">
-          <form id = "orderForm" action="checkout.html" method="post" role="form" class="contactForm">
+          <form id = "orderForm" action="checkout.html" class="contactForm">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -150,7 +157,8 @@
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
-                <a id = 'submitBtn' href = 'checkout.html'>Submit Order</a>
+                  <!-- <input type = 'submit' id ='submitBtn'  value = 'Click' onclick = 'passValues();'> -->
+                <a id = 'submitBtn' href = 'checkout.html' onclick = 'passValues();'>Submit Order</a>
               </button>
               </div>
             </div>
@@ -179,126 +187,131 @@
   </section>
   <!-- / contact -->
   <!-- footer -->
-  <footer class="footer">
-    <h2> Checkout Form</h2>
-      <div class="row">
-        <div class="col-75">
-          <div class="container_2">
-<!-- 
-      <script>  
-        var parameters = location.search.substring(1).split('&');
-      </script> -->
+  <footer>
+    <footer class="footer text-center"> 
 
-      <form action="/action_page.php">
-          <table id = 'summary'>
-            <tr>
-              <td>
+    <div class="footer-top"> 
+      <h4 class="widget-title">Checkout Here!</h4>
 
-              <div class="col-50">
-                <h3>Payment</h3>
-      
-                <label for="cname">Name on Card</label>
-                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-                <label for="ccnum">Credit card number</label>
-                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                <label for="expmonth">Exp Month</label>
-                <input type="text" id="expmonth" name="expmonth" placeholder="September">
-                <div class="row">
-
-                  <div class="col-50">
-                    <label for="expyear">Exp Year</label>
-                    <input type="text" id="expyear" name="expyear" placeholder="2018">
-                  </div>
-
-                  <div class="col-50">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="352">
-                  </div>
-
-                </div>
-              </div>
-            </td>
-
-            <td>
-              <div class="col-50">
-                <h3>Payment</h3>
-      
-                <label for="cname">Name on Card</label>
-                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-                <label for="ccnum">Credit card number</label>
-                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                <label for="expmonth">Exp Month</label>
-                <input type="text" id="expmonth" name="expmonth" placeholder="September">
-                
-                <div class="row">
-
-                  <div class="col-50">
-                    <label for="expyear">Exp Year</label>
-                    <input type="text" id="expyear" name="expyear" placeholder="2018">
-                  </div>
-
-                  <div class="col-50">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="352">
-                  </div>
-
-                </div>
-              </div>
-            </td>
-
-            </tr>
-
-
-          </table>
-
-          </div>
-          <input type="submit" value="Continue to checkout" class="btn">
-        </form>
-      </div>
-    </div>
-
-  </table>
-
-      
-<!-- 
-    <div class="footer-top">
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-offset-3 col-md-6 text-center">
-          <div class="widget">
-            <!-- <h4 class="widget-title">Delicious</h4>
-            <address>324 Ellte Road<br>Delhi, DL 110013</address> -->
-            <div class="social-list">
-              <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-              <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-            </div>
-            <!-- <p class="copyright clear-float">
-              © Delicious Theme. All Rights Reserved
-              <div class="credits"> -->
-                <!--
-                  All the links in the footer should remain intact.
-                  You can delete the links only if you purchased the pro version.
-                  Licensing information: https://bootstrapmade.com/license/
-                  Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Delicious
-                -->
-                <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
-              </div>
-            </p>
+          <div class="widget">  
+            <div class="social-list"> -->
+
+              <div class ="row">
+                <div class = "col-6">
+                  <label for="orderdetails">Order Details</label><br>
+
+                    <div class="form-group label-floating is-empty">
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                      <input type="email" class="form-control label-floating is-empty" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                      <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
+                      <input type="address" class="form-control label-floating is-empty" name="address" id="address" placeholder="Address" data-rule="required" data-msg="This field is required" />
+                      <input type="text" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
+                      <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" />
+                      
+                    </div>
+                  </div>
+
+                  <div class = "col-6">
+                    <label for="paymentdetails">Payment Details</label><br>
+
+                    <div class="form-group label-floating is-empty">
+                      <input type="text" id="cname" name="cardname" class="form-control label-floating is-empty" placeholder="John More Doe"><br>
+                      <input type="text" id="ccnum" name="cardnumber" class="form-control label-floating is-empty" placeholder="1111-2222-3333-4444"><br>
+                      <input type="text" id="expmonth" name="expmonth" class="form-control label-floating is-empty" placeholder="September"><br>
+
+                    </div>
+                  </div>
+
+
+
+
+
+              <!-- <div class ="row">
+                <div class = "col-6">
+                  <label for="cname">Name on Card</label><br>
+                  <input type="text" id="cname" name="cardname" placeholder="John More Doe"><br>
+                  <label for="ccnum">Credit card number</label>
+                  <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"><br>
+                  <label for="expmonth">Exp Month</label>
+                  <input type="text" id="expmonth" name="expmonth" placeholder="September"><br>
+
+                </div>
+
+                    <div class = "col-6">
+                        <label for="cname">Name on Card</label><br>
+                        <input type="text" id="cname" name="cardname" placeholder="John More Doe"><br>
+                        <label for="ccnum">Credit card number</label><br>
+                        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"><br>
+                        <label for="expmonth">Exp Month</label><br>
+                        <input type="text" id="expmonth" name="expmonth" placeholder="September"><br>        
+                      </div>
+                    </div>  
+             -->
           </div>
         </div>
       </div>
     </div> -->
   </footer>
-  <!-- / footer -->
 
-  <!-- <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.min.js"></script>
   <script src="js/jquery.easing.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="contactform/contactform.js"></script>
- -->
+
 
     <script>
-      $("#main-container").hide();  
+
+
+    function passValues(){
+      var name = document.getElementById('name').value;
+      // localStorage.setItem('passName', name);
+
+      var email = document.getElementbyId("email").value;
+      // localStorage.setItem('passEmail', email);
+
+      var quantity = document.getElementbyId("quantity").value;
+      // localStorage.setItem('passQuantity', quantity);
+
+      var address = document.getElementbyId("address").passValues;
+      // localStorage.setItem('passAddress', address);
+
+      var phone = document.getElementbyId("phone").value;
+      // localStorage.setItem('passPhone', phone);
+
+      var postalCode = document.getElementbyId("postalCode").value;
+      // localStorage.setItem('passPostalCode', postalCode);
+
+      var data = [];
+      data[0] = prompt(name)
+      // , email, quantity, address, phone, postalCode]
+      localStorage.setItem('passData', JSON.stringify(data));
+
+      return False
+
+    }
+
+
+        // tweeter part is here
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", "cupcakeg1t8_tweets.csv", true);
+        rawFile.onreadystatechange = function ()
+        {
+            if(rawFile.readyState === 4)
+            {
+                if(rawFile.status === 200 || rawFile.status == 0)
+                {
+                    var allText = rawFile.responseText;
+                    document.getElementById('tweeter').value=allText
+                }
+            }
+        }
+        rawFile.send(null);
+        // tweeter part ends 
+
+
         // Helper function to display error message
         function showError(message) {
             // Hide the table and button in the event of error
@@ -423,6 +436,7 @@
     );
 
 
+    
 </script>
 
 
