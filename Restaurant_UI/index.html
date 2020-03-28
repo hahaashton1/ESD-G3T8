@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="app.html.css">
-
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  -->
     <title>Restaurant UI</title>
     <script 
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -179,33 +179,114 @@
   </section>
   <!-- / contact -->
   <!-- footer -->
-  <footer class="footer text-center">
+  <footer class="footer">
+    <h2> Checkout Form</h2>
+      <div class="row">
+        <div class="col-75">
+          <div class="container_2">
+<!-- 
+      <script>  
+        var parameters = location.search.substring(1).split('&');
+      </script> -->
+
+      <form action="/action_page.php">
+          <table id = 'summary'>
+            <tr>
+              <td>
+
+              <div class="col-50">
+                <h3>Payment</h3>
+      
+                <label for="cname">Name on Card</label>
+                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                <label for="ccnum">Credit card number</label>
+                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                <label for="expmonth">Exp Month</label>
+                <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                <div class="row">
+
+                  <div class="col-50">
+                    <label for="expyear">Exp Year</label>
+                    <input type="text" id="expyear" name="expyear" placeholder="2018">
+                  </div>
+
+                  <div class="col-50">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="352">
+                  </div>
+
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <div class="col-50">
+                <h3>Payment</h3>
+      
+                <label for="cname">Name on Card</label>
+                <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                <label for="ccnum">Credit card number</label>
+                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                <label for="expmonth">Exp Month</label>
+                <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                
+                <div class="row">
+
+                  <div class="col-50">
+                    <label for="expyear">Exp Year</label>
+                    <input type="text" id="expyear" name="expyear" placeholder="2018">
+                  </div>
+
+                  <div class="col-50">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="352">
+                  </div>
+
+                </div>
+              </div>
+            </td>
+
+            </tr>
+
+
+          </table>
+
+          </div>
+          <input type="submit" value="Continue to checkout" class="btn">
+        </form>
+      </div>
+    </div>
+
+  </table>
+
+      
+<!-- 
     <div class="footer-top">
       <div class="row">
         <div class="col-md-offset-3 col-md-6 text-center">
           <div class="widget">
-            <h4 class="widget-title">Delicious</h4>
-            <address>324 Ellte Road<br>Delhi, DL 110013</address>
+            <!-- <h4 class="widget-title">Delicious</h4>
+            <address>324 Ellte Road<br>Delhi, DL 110013</address> -->
             <div class="social-list">
               <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
               <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
             </div>
-            <p class="copyright clear-float">
+            <!-- <p class="copyright clear-float">
               © Delicious Theme. All Rights Reserved
-              <div class="credits">
+              <div class="credits"> -->
                 <!--
                   All the links in the footer should remain intact.
                   You can delete the links only if you purchased the pro version.
                   Licensing information: https://bootstrapmade.com/license/
                   Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Delicious
                 -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> -->
               </div>
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </footer>
   <!-- / footer -->
 
@@ -217,6 +298,7 @@
  -->
 
     <script>
+      $("#main-container").hide();  
         // Helper function to display error message
         function showError(message) {
             // Hide the table and button in the event of error
@@ -275,15 +357,70 @@
         } // error
     });
     
-    var name = getElementbyId("#name");
-    var email = getElementbyId("#email");
-    var quantity = getElementbyId("#quantity");
-    var address = getElementbyId("#address");
-    var phone = getElementbyId("#phone");
-    var postalCode = getElementbyId("#postalCode");
+    // var name = getElementbyId("#name");
+    // var email = getElementbyId("#email");
+    // var quantity = getElementbyId("#quantity");
+    // var address = getElementbyId("#address");
+    // var phone = getElementbyId("#phone");
+    // var postalCode = getElementbyId("#postalCode");
 
-    var data = [name, email, quantity, address, phone, postalCode];
-    localStorage.setItem('objectToPass', data);
+    // var data = [name, email, quantity, address, phone, postalCode];
+    // localStorage.setItem('objectToPass', data);
+
+    // Helper function to display error message
+    $('#tableresults').hide();
+    function showError(message) {
+        // Hide the table and button in the event of error
+        $('#tableresults').hide();}
+    
+    $(function() {        
+    $("#addbookForm").submit(async (event) =>{
+    event.preventDefault();
+    //$("#error").hide(); 
+    var title = $('#title').val();
+    var isbnNumber = $('#isbn13').val();
+    var price = parseFloat($('#price').val());
+    var availability = parseInt($('#availability').val());
+
+    serviceURL = "http://127.0.0.1:5000/book" + "/" + isbnNumber;
+
+    try{
+        const response = 
+            await fetch(
+                serviceURL,{
+                method : "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify ({title:title, price:price, availability:availability })
+            });
+    const data = await response.json();
+    if (response.ok){
+        window.location.replace(homeURL);
+        return false;
+        
+    }
+    else{
+        console.log(data)
+        addBook = 
+        "<tbody>" +
+        "<tr>" +
+        "<td>" + title + "</td>" + 
+        "<td>" + isbnNumber + "</td>" +
+        "<td>" + price+ "</td>" +
+        "<td>" + availability + "</td>" +
+        "</tr>" +
+        "</body>"
+        $("#tableresults").append( addBook );
+        showError(data.message);
+        $("#tableresults").show();
+    }
+    }
+    catch (error){
+        showError
+        ('There is a problem retrieving books data, please try again later.<br />'+error);
+            }        
+    })
+    }
+    );
 
 
 </script>
