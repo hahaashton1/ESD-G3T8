@@ -504,3 +504,26 @@ table {
       margin-bottom: 20px;
     }
   }
+
+
+.container {
+    float:left;
+    width:25%;
+    text-align:right;
+}
+
+.container input {
+    float:left;
+    width:65%;
+}
+
+.promo {
+    border-collapse: collapse;
+    border: 2px black solid;
+    font: 12px sans-serif;
+}
+
+.promo td {
+    border: 1px black solid;
+    padding: 5px;
+}

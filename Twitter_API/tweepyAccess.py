@@ -1,12 +1,18 @@
 import tweepy
 from tweepy import OAuthHandler
 import csv
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy 
+from flask_cors import CORS
+import pika
+import json
 
 consumer_key="N2oXB2loL73OQ87R7yQ50Dicu"
 consumer_secret="LlrU3ZuuoMWaGIFNNDkdLnyUrKSOZSk8x8DLKsPYA5omVXQUo6"
 access_key="1238352975132626944-BfCcBHGNpgELefKXTEiwEHHigQ03ec"
 access_secret="c4E5Mgo7HrY85dXG7wpeYnS5Mow0ZtsMVNXFkkoddT1ZJ"
 
+@app.route("/tweepyAccess", methods=['POST'])
 def get_all_tweets(screen_name):
 	#Twitter only allows access to a users most recent 3240 tweets with this method
 	
@@ -57,4 +63,5 @@ def get_all_tweets(screen_name):
 if __name__ == '__main__':
 	#pass in the username of the account you want to download
 	get_all_tweets("cupcakeg1t8")
+	app.run(port=5000, debug=True)
 

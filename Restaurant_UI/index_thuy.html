@@ -27,6 +27,7 @@
     crossorigin="anonymous"></script>
 
     <script src="d3.min.js?v=3.2.8"></script>
+
     <script type="text/javascript"charset="utf-8">
       d3.text("cupcakeg1t8_tweets.csv", function(data) {
           var parsedCSV = d3.csv.parseRows(data);
@@ -44,7 +45,7 @@
                   .text(function(d) { return d; });
       });
   </script>
-
+  
 
   </head>
 
@@ -176,7 +177,7 @@
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
                   <!-- <input type = 'submit' id ='submitBtn'  value = 'Click' onclick = 'passValues();'> -->
-                <a id = 'submitBtn' href = 'checkout.html' onclick = 'passValues();'>Submit Order</a>
+                <a id = 'submitBtn' >Submit Order</a>
               </button>
               </div>
             </div>
@@ -206,7 +207,7 @@
   <!-- / contact -->
   <!-- footer -->
   <footer>
-    <footer class="footer text-center"> 
+    <footer id = "footerSection" class="footer text-center"> 
 
     <div class="footer-top"> 
       <h4 class="widget-title">Checkout Here!</h4>
@@ -217,10 +218,14 @@
             <div class="social-list"> -->
 
               <div class ="row">
-                <div class = "col-6">
+                <div id = "orderdetails" class = "col-6">
                   <label for="orderdetails">Order Details</label><br>
 
-                    <div class="form-group label-floating is-empty">
+                  <table id ="orderResult">
+                    <tr>
+                    </tr>
+                  </table>
+                    <!-- <div class="form-group label-floating is-empty">
                       <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                       <input type="email" class="form-control label-floating is-empty" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                       <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
@@ -228,9 +233,9 @@
                       <input type="text" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
                       <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" />
                       
+                    </div> -->
                     </div>
                   </div>
-
                   <div class = "col-6">
                     <label for="paymentdetails">Payment Details</label><br>
 
@@ -270,7 +275,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div> 
   </footer>
 
   <script src="js/jquery.min.js"></script>
@@ -282,34 +287,41 @@
 
     <script>
 
+      $('#footerSection').hide();
 
-    function passValues(){
-      var name = document.getElementById('name').value;
-      // localStorage.setItem('passName', name);
+      $("#main-container").hide();
 
-      var email = document.getElementbyId("email").value;
-      // localStorage.setItem('passEmail', email);
+      $("#submitBtn").click(function(){
+        $('#footerSection').show();
+      });
 
-      var quantity = document.getElementbyId("quantity").value;
-      // localStorage.setItem('passQuantity', quantity);
+    // function passValues(){
+    //   var name = document.getElementById('name').value;
+    //   // localStorage.setItem('passName', name);
 
-      var address = document.getElementbyId("address").passValues;
-      // localStorage.setItem('passAddress', address);
+    //   var email = document.getElementbyId("email").value;
+    //   // localStorage.setItem('passEmail', email);
 
-      var phone = document.getElementbyId("phone").value;
-      // localStorage.setItem('passPhone', phone);
+    //   var quantity = document.getElementbyId("quantity").value;
+    //   // localStorage.setItem('passQuantity', quantity);
 
-      var postalCode = document.getElementbyId("postalCode").value;
-      // localStorage.setItem('passPostalCode', postalCode);
+    //   var address = document.getElementbyId("address").passValues;
+    //   // localStorage.setItem('passAddress', address);
 
-      var data = [];
-      data[0] = prompt(name)
-      // , email, quantity, address, phone, postalCode]
-      localStorage.setItem('passData', JSON.stringify(data));
+    //   var phone = document.getElementbyId("phone").value;
+    //   // localStorage.setItem('passPhone', phone);
 
-      return False
+    //   var postalCode = document.getElementbyId("postalCode").value;
+    //   // localStorage.setItem('passPostalCode', postalCode);
 
-    }
+    //   var data = [];
+    //   data[0] = prompt(name)
+    //   // , email, quantity, address, phone, postalCode]
+    //   localStorage.setItem('passData', JSON.stringify(data));
+
+    //   return False
+
+    // }
 
 
         // tweeter part is here
@@ -388,32 +400,28 @@
         } // error
     });
     
-    // var name = getElementbyId("#name");
-    // var email = getElementbyId("#email");
-    // var quantity = getElementbyId("#quantity");
-    // var address = getElementbyId("#address");
-    // var phone = getElementbyId("#phone");
-    // var postalCode = getElementbyId("#postalCode");
 
-    // var data = [name, email, quantity, address, phone, postalCode];
-    // localStorage.setItem('objectToPass', data);
+// <!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
+
 
     // Helper function to display error message
-    $('#tableresults').hide();
+    $('#orderdetails').hide();
     function showError(message) {
         // Hide the table and button in the event of error
-        $('#tableresults').hide();}
+        $('#orderdetails').hide();}
     
     $(function() {        
-    $("#addbookForm").submit(async (event) =>{
+    $("#orderForm").submit(async (event) =>{
     event.preventDefault();
     //$("#error").hide(); 
-    var title = $('#title').val();
-    var isbnNumber = $('#isbn13').val();
-    var price = parseFloat($('#price').val());
-    var availability = parseInt($('#availability').val());
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var quantity = parseFloat($('#quantity').val());
+    var address = parseInt($('#address').val());
+    var phone = parseInt($('#phone').val());
+    var postalCode= parseInt($('#postalCode').val());
 
-    serviceURL = "http://127.0.0.1:5000/book" + "/" + isbnNumber;
+    serviceURL = "http://127.0.0.1:5000/order" + "/" + name;
 
     try{
         const response = 
@@ -421,7 +429,7 @@
                 serviceURL,{
                 method : "POST",
                 headers: {"Content-Type":"application/json"},
-                body: JSON.stringify ({title:title, price:price, availability:availability })
+                body: JSON.stringify ({name:name, email:email, quantity:quantity, address:address, phone:phone, postalCode:postalCode })
             });
     const data = await response.json();
     if (response.ok){
@@ -431,18 +439,21 @@
     }
     else{
         console.log(data)
-        addBook = 
+        addOrder = 
         "<tbody>" +
         "<tr>" +
-        "<td>" + title + "</td>" + 
-        "<td>" + isbnNumber + "</td>" +
-        "<td>" + price+ "</td>" +
-        "<td>" + availability + "</td>" +
+        "<td>" + name + "</td>" + 
+        "<td>" + email + "</td>" +
+        "<td>" + quantity+ "</td>" +
+        "<td>" + address + "</td>" +
+        "<td>" + phone + "</td>" +
+        "<td>" + postalCode + "</td>" +
+
         "</tr>" +
         "</body>"
-        $("#tableresults").append( addBook );
+        $("#orderResult").append( addOrder );
         showError(data.message);
-        $("#tableresults").show();
+        $("#orderResult").show();
     }
     }
     catch (error){
@@ -456,9 +467,6 @@
 
     
 </script>
-
-
-<!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
 
 
 
