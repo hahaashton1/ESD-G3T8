@@ -3,23 +3,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import pika
 import json
+from os import environ
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
+##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
- 
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+
+
 db = SQLAlchemy(app)
 CORS(app)
 
-## Connection details
-hostname = "localhost"
-port = 5672
-
 ## Sending order confirmation to delivery microservice
-connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",port=5672))
+connection=pika.BlockingConnection(pika.ConnectionParameters(host="host.docker.internal",port=5672))
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
 
 def send_order(order_id, address, telegram_id):
     channel.queue_declare(queue="delivery", durable=True)
@@ -31,7 +32,7 @@ def send_order(order_id, address, telegram_id):
  
 class Order(db.Model):
     __tablename__ = 'orders'
-    ##order_id = db.Column(db.Integer, primary_key = True)
+    order_id = db.Column(db.Integer, primary_key = True)
     telegram_id = db.Column(db.Integer)
     email = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(200))
@@ -46,16 +47,13 @@ def add_order():
     data = request.get_json()
     order = Order(**data)
 
-
     try:
 
         db.session.add(order)
         db.session.commit()
 
-        ##last_item = Order.query.order_by(Order.order_id.desc()).first()
-        ##print(last_item)
-        
-        send_order("fuck", data["address"], data["telegram_id"]) ## Send order to delivery microservice
+        item = Order.query.order_by(Order.order_id.desc()).first()
+        send_order(item.order_id, data["address"], data["telegram_id"]) ## Send order to delivery microservice
 
     except:
         return jsonify({"message": "An error occurred creating the order."}), 500
@@ -63,4 +61,5 @@ def add_order():
     return jsonify({"Order has been created!"}), 201
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    ##app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
