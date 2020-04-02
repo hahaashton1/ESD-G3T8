@@ -3,23 +3,26 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import pika
 import json
+from os import environ
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
+##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
- 
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+## set dbURL=mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc
+
+
+
 db = SQLAlchemy(app)
 CORS(app)
 
-## Connection details
-hostname = "localhost"
-port = 5672
-
 ## Sending order confirmation to delivery microservice
-connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",port=5672))
+connection=pika.BlockingConnection(pika.ConnectionParameters(host="host.docker.internal",port=5672))
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
 
 def send_order(order_id, address, telegram_id):
     channel.queue_declare(queue="delivery", durable=True)
@@ -40,27 +43,27 @@ class Order(db.Model):
     phone = db.Column(db.Integer)
     postalCode = db.Column(db.Integer)
 
-
-    def __init__(self, telegram_id, name, email, quantity, address, phone, postalCode):
-        self.telegram_id = telegram_id
-        self.name = name
-        self.email = email
-        self.quantity = quantity
-        self.address = address 
-        self.phone = phone
-        self.postalCode = postalCode
+# class Transactions(db.Model):
+#     __tablename__ = 'transactions'
+#     tran_id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+#     order_id = db.Column(db.Integer, ForeignKey('Order.order_id'))
+#     quantity = db.Column(db.Integer)
+#     price = db.Column(db.Integer)
+#     amount = db.Column(db.Integer)
+#     ##time = db.Column(datetime.now())
 
  
-    def json(self):
-        return {"order_id": self.order_id, "telegram_id": self.telegram_id, "name": self.name, "quantity": self.quantity, "address": self.address, "phone": self.phone, "postalCode": self.postalCode}
 
 @app.route("/order", methods=['POST'])
 def add_order():
 
-
+    ## Get order data from UI
     data = request.get_json()
     order = Order(**data)
-    
+
+    ## Prepare order data to be sent to transactions DB
+    ##transaction = Transactions(quantity=,price=, amount=)
+
     try:
 
         db.session.add(order)
@@ -75,9 +78,12 @@ def add_order():
 
 
     except:
-        return jsonify(order.json()), 500
+
+        ## Don't know why it is triggering this even though it is successful
+        return data, 500
  
     return jsonify({"Order has been created!"}), 201
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    ##app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
