@@ -13,7 +13,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/Twitter_API'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esm'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -21,7 +21,7 @@ CORS(app)
 
 class Tweets_Table(db.Model):
 
-	__tablename__ = 'tweets'
+	__tablename__ = 'tweets2'
 	tweets = db.Column(db.String(200))
 	id = db.Column(db.Integer, primary_key = True)
 
