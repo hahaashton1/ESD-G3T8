@@ -10,6 +10,8 @@ app = Flask(__name__)
 ##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+## set dbURL=mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc
+
 
 
 db = SQLAlchemy(app)
@@ -41,12 +43,27 @@ class Order(db.Model):
     phone = db.Column(db.Integer)
     postalCode = db.Column(db.Integer)
 
+# class Transactions(db.Model):
+#     __tablename__ = 'transactions'
+#     tran_id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+#     order_id = db.Column(db.Integer, ForeignKey('Order.order_id'))
+#     quantity = db.Column(db.Integer)
+#     price = db.Column(db.Integer)
+#     amount = db.Column(db.Integer)
+#     ##time = db.Column(datetime.now())
+
+ 
+
 @app.route("/order", methods=['POST'])
 def add_order():
 
+    ## Get order data from UI
     data = request.get_json()
     order = Order(**data)
-    
+
+    ## Prepare order data to be sent to transactions DB
+    ##transaction = Transactions(quantity=,price=, amount=)
+
     try:
 
         db.session.add(order)
@@ -60,7 +77,9 @@ def add_order():
         send_order(orderid, data["address"], data["telegram_id"]) ## Send order to delivery microservice
 
     except:
-        return jsonify({"message": "An error occurred creating the order."}), 500
+
+        ## Don't know why it is triggering this even though it is successful
+        return data, 500
  
     return jsonify({"Order has been created!"}), 201
 
