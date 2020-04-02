@@ -25,36 +25,280 @@
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
-
-    <!-- <script src="d3.min.js?v=3.2.8"></script>
-    <script type="text/javascript"charset="utf-8">
-      d3.text("cupcakeg1t8_tweets.csv", function(data) {
-          var parsedCSV = d3.csv.parseRows(data);
-
-          var container = d3.select("body")
-              .append("table")
-
-              .selectAll("tr")
-                  .data(parsedCSV).enter()
-                  .append("tr")
-
-              .selectAll("td")
-                  .data(function(d) { return d; }).enter()
-                  .append("td")
-                  .text(function(d) { return d; });
-      });
-  </script> -->
-
-
   </head>
 
   <body>
-  <!-- menu -->
-    <output id="tweeter">
 
-      file contents will appear here
+  <style type="text/css" media="screen">
+      /* * {
+        margin: 0; 
+        padding: 0;
+      }
+
+      div#banner { 
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        background-color: #FDD7C2; 
+        width: 100%; 
+      }
+      div#banner-content { 
+        width: 1000px; 
+        margin: 0 auto; 
+        padding: 10px; 
+        border: 1px solid #000;
+      }
+      div#main-content { 
+        padding-top: 20px;
+      } */
+
+                  
+      @font-face {
+          font-family: Clip;
+          src: url("https://acupoftee.github.io/fonts/Clip.ttf");
+        }
+    
+
+        .sign {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 90%;
+          height: 10%;
+          transform: translate(-50%, -50%);
+          letter-spacing: 2;
+          left: 50%;
+          top: 3%;
+          font-family: "Clip";
+          text-transform: uppercase;
+          font-size: 2em;
+          color: #ffe6ff;
+          text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+            -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+            0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+          animation: shine 0.5s forwards, flicker 1s infinite;
+        }
+
+        .sign2 {
+          background-color: #FFB03B;
+          min-height: 15px;
+
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 10%;
+          transform: translate(-50%, -50%);
+          letter-spacing: 2;
+          left: 50%;
+          top: 12%;
+          font-family: "Clip";
+          text-transform: lowercase;
+          font-size: 2em;
+          color: #000000;
+        }
+        
+        
+        @keyframes blink {
+          0%,
+          22%,
+          36%,
+          75% {
+            color: #ffe6ff;
+            text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+              -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+              0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+          }
+          28%,
+          33% {
+            color: #ff65bd;
+            text-shadow: none;
+          }
+          82%,
+          97% {
+            color: #ff2483;
+            text-shadow: none;
+          }
+        }
+    
+        .fast-flicker {
+          animation: shine 3s forwards, blink 1s 1s infinite;
+        }
+        
+        @keyframes shine {
+          0% {
+            color: #6b1839;
+            text-shadow: none;
+          }
+          100% {
+            color: #ffe6ff;
+            text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+              -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+              0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+          }
+        }
+        
+        @keyframes flicker {
+          from {
+            opacity: 1;
+          }
+        
+          4% {
+            opacity: 0.9;
+          }
+        
+          6% {
+            opacity: 0.85;
+          }
+        
+          8% {
+            opacity: 0.95;
+          }
+        
+          10% {
+            opacity: 0.9;
+          }
+        
+          11% {
+            opacity: 0.922;
+          }
+        
+          12% {
+            opacity: 0.9;
+          }
+        
+          14% {
+            opacity: 0.95;
+          }
+        
+          16% {
+            opacity: 0.98;
+          }
+        
+          17% {
+            opacity: 0.9;
+          }
+        
+          19% {
+            opacity: 0.93;
+          }
+        
+          20% {
+            opacity: 0.99;
+          }
+        
+          24% {
+            opacity: 1;
+          }
+        
+          26% {
+            opacity: 0.94;
+          }
+        
+          28% {
+            opacity: 0.98;
+          }
+        
+          37% {
+            opacity: 0.93;
+          }
+        
+          38% {
+            opacity: 0.5;
+          }
+        
+          39% {
+            opacity: 0.96;
+          }
+        
+          42% {
+            opacity: 1;
+          }
+        
+          44% {
+            opacity: 0.97;
+          }
+        
+          46% {
+            opacity: 0.94;
+          }
+        
+          56% {
+            opacity: 0.9;
+          }
+        
+          58% {
+            opacity: 0.9;
+          }
+        
+          60% {
+            opacity: 0.99;
+          }
+        
+          68% {
+            opacity: 1;
+          }
+        
+          70% {
+            opacity: 0.9;
+          }
+        
+          72% {
+            opacity: 0.95;
+          }
+        
+          93% {
+            opacity: 0.93;
+          }
+        
+          95% {
+            opacity: 0.95;
+          }
+        
+          97% {
+            opacity: 0.93;
+          }
+        
+          to {
+            opacity: 1;
+          }
+        }
+  </style>
+
+<?php
+    $link = mysqli_connect("localhost", "root", "", "Twitter_API");
+
+    if($link === false){
+      die("ERROR: Could not connect. " . mysqli_connect_error());
+    }
+
+    // $sql = "SELECT * FROM 'tweets2' WHERE 'id' = 1";
+    $sql = "SELECT `id`, `tweets` FROM `tweets` WHERE `id` = 1";
+    if($result = mysqli_query($link, $sql)){
+      if(mysqli_num_rows($result) > 0){
+        
+          echo "<div class='sign'>";
       
-    </output>
+          while($row = mysqli_fetch_array($result)){
+                  echo "<span class='fast-flicker'>PROMOTION:</span></div>";
+                  
+                  echo "<div class = 'sign2'>" . $row['tweets'] . "</div>";
+          }
+          
+          // Free result set
+          mysqli_free_result($result);
+          echo "</span></div>";
+        }
+    }
+
+    ?>
+
+    <br><br>
+    <br><br>
+  <!-- menu -->
+  
   </section>
   <section id="menu-list" class="section-padding">
     <!-- <div class="container"> -->
@@ -171,11 +415,7 @@
               <div class="form-group">
               <input list="delivery_pricing" placeholder="Region">
                 <datalist id="delivery_pricing" >
-                  <!-- <option value="Internet Explorer">
-                  <option value="Firefox">
-                  <option value="Chrome">
-                  <option value="Opera">
-                  <option value="Safari"> -->
+           
                 </datalist>
               </div>
               </div>  
@@ -211,98 +451,16 @@
   </section>
   <!-- / contact -->
   <!-- footer -->
+
   <footer>
-    <footer id = "footerSection" class="footer text-center"> 
-
-    <div class="footer-top"> 
-      <h4 class="widget-title">Checkout Here!</h4>
-
-      <!-- <div class="row">
-        <div class="col-md-offset-3 col-md-6 text-center">
-          <div class="widget">  
-            <div class="social-list"> -->
-
-          
-                <div class = "col-6">
-                  <label for="orderdetails">Order Details</label><br>
-                    <div class="form-group label-floating is-empty">
-                      <table id ="orderResult">
-                        <tr>Hello
-                        </tr>
-                      </table>
-
-                      <!-- <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                      <input type="email" class="form-control label-floating is-empty" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                      <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
-                      <input type="address" class="form-control label-floating is-empty" name="address" id="address" placeholder="Address" data-rule="required" data-msg="This field is required" />
-                      <input type="text" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
-                      <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" /> -->
-                      
-                    </div>
-                  </div>
-
-                  <div class = "col-6">
-                    <!-- <label for="orderdetails">Order Details</label><br>
-                    <div class="form-group label-floating is-empty">
-                      <table id ="orderResult">
-                        <tr>Hello
-                        </tr>
-                      </table> -->
-
-                    <label for="paymentdetails">Payment Details</label><br>
-
-                    <div class="form-group label-floating is-empty">
-                      <input type="text" id="cname" name="cardname" class="form-control label-floating is-empty" placeholder="John More Doe"><br>
-                      <input type="text" id="ccnum" name="cardnumber" class="form-control label-floating is-empty" placeholder="1111-2222-3333-4444"><br>
-                      <input type="text" id="expmonth" name="expmonth" class="form-control label-floating is-empty" placeholder="September"><br>
-
-                    </div>
-                  </div>
-
-
-
-
-
-              <!-- <div class ="row">
-                <div class = "col-6">
-                  <label for="cname">Name on Card</label><br>
-                  <input type="text" id="cname" name="cardname" placeholder="John More Doe"><br>
-                  <label for="ccnum">Credit card number</label>
-                  <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"><br>
-                  <label for="expmonth">Exp Month</label>
-                  <input type="text" id="expmonth" name="expmonth" placeholder="September"><br>
-
-                </div>
-
-                    <div class = "col-6">
-                        <label for="cname">Name on Card</label><br>
-                        <input type="text" id="cname" name="cardname" placeholder="John More Doe"><br>
-                        <label for="ccnum">Credit card number</label><br>
-                        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"><br>
-                        <label for="expmonth">Exp Month</label><br>
-                        <input type="text" id="expmonth" name="expmonth" placeholder="September"><br>        
-                      </div>
-                    </div>  
-             -->
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </footer>
 
-  <!-- <script src="js/jquery.min.js"></script>
-  <script src="js/jquery.easing.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/custom.js"></script>
-  <script src="contactform/contactform.js"></script> -->
 
 
     <script>
 
-    // localStorage.clear();
 
-    // var data = ['thuy', 123, 'hello', 3453];
-    // localStorage.setItem('passData', data);
 
       function passValues(){
       var name = document.getElementById('#name').value;
@@ -404,69 +562,10 @@
         } // error
     });
 </script>
-  <!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
-<!-- 
-  <script>
-
-    // Helper function to display error message
-    $('#orderdetails').hide();
-    function showError(message) {
-        // Hide the table and button in the event of error
-        $('#orderdetails').hide();
-      }
-    
-    $(function() {        
-    $("#orderForm").submit(async (event) =>{
-    event.preventDefault();
-    //$("#error").hide(); 
-    var name = $('#name').val();
-    var old_email = $('#email').val();
-    var email = encodeURI(old_email);
-    var quantity = parseInt($('#quantity').val());
-    var address = $('#address').val();
-    var phone = parseInt($('#phone').val());
-    var postalCode= parseInt($('#postalCode').val());
-
-    serviceURL = "http://127.0.0.1:5000/order" 
-
-    try{
-        const response = 
-            await fetch(
-                serviceURL,{
-                method : "POST",
-                headers: {"Content-Type":"application/json"},
-                body: JSON.stringify ({name:name, email:email, telegram_id:telegram_id, quantity:quantity, address:address, phone:phone, postalCode:postalCode })
-            });
-    const data = await response.json();
-    if (response.ok){
-        window.location.replace(homeURL);
-        return false;   
-    }
-    else{
-        console.log(data);
-        addOrder = 
-        "<tbody>" +
-        "<tr>" + name + "</tr>" + 
-        "<tr>" + email + "</tr>" +
-        "<tr>" + quantity+ "</tr>" +
-        "<tr>" + address + "</tr>" +
-        "<tr>" + phone + "</tr>" +
-        "<tr>" + postalCode + "</tr>" +
-        "</body>"
-        $("#orderResult").append( addOrder );
-        showError(data.message);
-        $("#orderResult").show();
-        }
-    }
-    catch (error){
-        showError
-        ('There is a problem retrieving books data, please try again later.<br />'+error);
-            }        
-    });
-    });
+ 
 
     
-</script> -->
+</script> 
 </body>
 </html>
 

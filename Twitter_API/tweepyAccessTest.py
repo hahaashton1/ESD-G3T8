@@ -1,24 +1,42 @@
 import tweepy
+from tweepy import Stream
+from tweepy.streaming import StreamListener
+import mysql.connector
+from mysql.connector import errorcode
+import time
+import json
 from tweepy import OAuthHandler
 import csv
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy 
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-import pika
-import json
+from datetime import datetime
 
-consumer_key="N2oXB2loL73OQ87R7yQ50Dicu"
-consumer_secret="LlrU3ZuuoMWaGIFNNDkdLnyUrKSOZSk8x8DLKsPYA5omVXQUo6"
-access_key="1238352975132626944-BfCcBHGNpgELefKXTEiwEHHigQ03ec"
-access_secret="c4E5Mgo7HrY85dXG7wpeYnS5Mow0ZtsMVNXFkkoddT1ZJ"
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esm'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route("/tweepyAccess", methods=['POST'])
+db = SQLAlchemy(app)
+CORS(app)
+
+class Tweets_Table(db.Model):
+
+	__tablename__ = 'tweets2'
+	tweets = db.Column(db.String(200))
+	id = db.Column(db.Integer, primary_key = True)
+
+
+ckey="N2oXB2loL73OQ87R7yQ50Dicu"
+csecret="LlrU3ZuuoMWaGIFNNDkdLnyUrKSOZSk8x8DLKsPYA5omVXQUo6"
+atoken="1238352975132626944-BfCcBHGNpgELefKXTEiwEHHigQ03ec"
+asecret="c4E5Mgo7HrY85dXG7wpeYnS5Mow0ZtsMVNXFkkoddT1ZJ"
+
 def get_all_tweets(screen_name):
 	#Twitter only allows access to a users most recent 3240 tweets with this method
 	
 	#authorize twitter, initialize tweepy
-	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-	auth.set_access_token(access_key, access_secret)
+	auth = tweepy.OAuthHandler(ckey, csecret)
+	auth.set_access_token(atoken, asecret)
 	api = tweepy.API(auth)
 	
 	#initialize a list to hold all the tweepy Tweets
@@ -51,17 +69,22 @@ def get_all_tweets(screen_name):
 	#transform the tweepy tweets into a 2D array that will populate the csv	| you can comment out data you don't need
 	outtweets = [[tweet.text.encode("utf-8"),] for tweet in alltweets]
 
-	#write the csv	
-	with open('../Restaurant_UI/%s_tweets.csv' % screen_name, 'w') as f:
-		writer = csv.writer(f)
-		writer.writerow(["text"])
-		writer.writerows(outtweets)
-	
-	pass
+	listofthings = []
+	for tweets in outtweets:
+		for tweet in tweets:
+			newtwt = tweet.decode('utf-8')
+			asd = Tweets_Table(tweets=newtwt)
+		
+
+			db.session.add(asd)
+			db.session.commit()
+
+
 
 
 if __name__ == '__main__':
-	#pass in the username of the account you want to download
-	get_all_tweets("cupcakeg1t8")
-	app.run(port=5000, debug=True)
-
+	while True:
+		get_all_tweets("cupcakeg1t8")
+		time.sleep(1800)
+		#  30 mins
+ 
