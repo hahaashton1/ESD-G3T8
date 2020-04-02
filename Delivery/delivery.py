@@ -10,14 +10,15 @@ import multiprocessing
 import atexit
 import datetime
 import requests
+from os import environ
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_delivery'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqlconnector://admin:ProfJiang@delivery1cc.cfom8s5f4cx6.us-east-1.rds.amazonaws.com:3306/delivery1cc"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-hostname = "localhost"
+hostname = "localhost" #host.docker.internal
 port = 5672
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
@@ -28,14 +29,14 @@ exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
 class Driver_Info(db.Model):
-    __tablename__= 'driverinfo'
+    __tablename__= 'DriverInfo'
 
     did=db.Column(db.String(10),primary_key=True)
     dname=db.Column(db.String(40),nullable=False)
     dstatus=db.Column(db.String(10), nullable=False)
 
 class Jobs(db.Model):
-    __tablename__= 'jobs'
+    __tablename__= 'Jobs'
     JobID=db.Column(db.Integer, primary_key=True)
     OrderID=db.Column(db.String(20),nullable=False)
     Address=db.Column(db.String(100),nullable=False)
