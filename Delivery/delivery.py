@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-hostname = "localhost" #host.docker.internal
+hostname = "localhost"
 port = 5672
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
@@ -147,15 +147,15 @@ def callback(channel, method, properties, body):
         thisJob.jstatus="Completed"
         thisJob.endtime=datetime.datetime.now()
         db.session.commit()
-        #notify the order ms
-        channel.queue_declare(queue="delivery", durable=True)
-        channel.queue_bind(exchange=exchangename, queue="delivery", routing_key="delivery")        
-        channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["completed",[orderid,"Order has been delivered successfully."]]),
-        properties=pika.BasicProperties(delivery_mode=2))
         #notify user
         if (thisJob.telegram):
             error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
             print(error)
+        #notify order
+        channel.queue_declare(queue="order", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
+        channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
+        properties=pika.BasicProperties(delivery_mode=2))
 
 def worker_check_unassignedjobs(incompletejobs):
     while (True):
