@@ -3,23 +3,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import pika
 import json
+from os import environ
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
+##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
- 
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+
+
 db = SQLAlchemy(app)
 CORS(app)
 
-## Connection details
-hostname = "localhost"
-port = 5672
-
 ## Sending order confirmation to delivery microservice
-connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",port=5672))
+connection=pika.BlockingConnection(pika.ConnectionParameters(host="host.docker.internal",port=5672))
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
 
 def send_order(order_id, address, telegram_id):
     channel.queue_declare(queue="delivery", durable=True)
@@ -64,4 +65,5 @@ def add_order():
     return jsonify({"Order has been created!"}), 201
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    ##app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
