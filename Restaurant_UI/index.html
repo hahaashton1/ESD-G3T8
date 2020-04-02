@@ -26,7 +26,7 @@
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 
-    <script src="d3.min.js?v=3.2.8"></script>
+    <!-- <script src="d3.min.js?v=3.2.8"></script>
     <script type="text/javascript"charset="utf-8">
       d3.text("cupcakeg1t8_tweets.csv", function(data) {
           var parsedCSV = d3.csv.parseRows(data);
@@ -43,7 +43,7 @@
                   .append("td")
                   .text(function(d) { return d; });
       });
-  </script>
+  </script> -->
 
 
   </head>
@@ -57,8 +57,8 @@
     </output>
   </section>
   <section id="menu-list" class="section-padding">
-    <div class="container">
-      <div class="row">
+    <!-- <div class="container"> -->
+      <!-- <div class="row"> -->
         <div class="col-md-12 text-center marb-35">
           <h1 class="header-h">Welcome to 1 Cupcake</h1>
           <h2>Menu List</h2>  
@@ -84,8 +84,8 @@
  
 
   <section id="contact" class="section-padding">
-    <div class="container">
-      <div class="row">
+    <!-- <div class="container">
+      <div class="row"> -->
         <div class="col-md-12 text-center">
           <h1 class="header-h">Place your order</h1>
           <p class="header-p">Please fill in your order details</p>
@@ -133,10 +133,17 @@
               </div>
             </div>
 
+            <div class="col-md-6 col-sm-6 contact-form pad-form">
+              <div class="form-group">
+                <input type="text" class="form-control label-floating is-empty" name="telegram_id" id="telegram_id" placeholder="Telegram Handle" data-rule="email" data-msg="Please enter a valid telegram handle" />
+                <div class="validation"></div>
+              </div>
+            </div>
+
             
             <div class="col-md-6 col-sm-6 contact-form pad-form">
               <div class="form-group label-floating is-empty">
-                <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
+                <input type="number" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
                 <div class="validation"></div>
               </div>
             </div>
@@ -149,7 +156,7 @@
             </div>
             <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
-                <input type="text" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
+                <input type="tel" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
                 <div class="validation"></div>
               </div>
             </div>
@@ -162,7 +169,7 @@
         
               <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
-              <input list="delivery_pricing" placeholder="Delivery Pricing">
+              <input list="delivery_pricing" placeholder="Region">
                 <datalist id="delivery_pricing" >
                   <!-- <option value="Internet Explorer">
                   <option value="Firefox">
@@ -175,9 +182,8 @@
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
-                  <!-- <input type = 'submit' id ='submitBtn'  value = 'Click' onclick = 'passValues();'> -->
-                <a id = 'submitBtn' href = 'checkout.html' onclick = 'passValues();'>Submit Order</a>
-              </button>
+                  <a id = 'submitBtn' onclick="passValues(); return false;">Submit Order</a>
+                </button>
               </div>
             </div>
           </form>
@@ -185,13 +191,13 @@
         </div>
 
 
-        <div id="main-container" class="container">
+        <!-- <div id="main-container" class="container"> -->
         <h1 class="display-4">Delivery Pricing</h1>
         <table id="priceTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
         <tr>
-            <th>Price</th>
             <th>Region</th>
+            <th>Price</th>
         </tr>  
     </table>
     </div>  
@@ -206,7 +212,7 @@
   <!-- / contact -->
   <!-- footer -->
   <footer>
-    <footer class="footer text-center"> 
+    <footer id = "footerSection" class="footer text-center"> 
 
     <div class="footer-top"> 
       <h4 class="widget-title">Checkout Here!</h4>
@@ -216,22 +222,33 @@
           <div class="widget">  
             <div class="social-list"> -->
 
-              <div class ="row">
+          
                 <div class = "col-6">
                   <label for="orderdetails">Order Details</label><br>
-
                     <div class="form-group label-floating is-empty">
-                      <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                      <table id ="orderResult">
+                        <tr>Hello
+                        </tr>
+                      </table>
+
+                      <!-- <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                       <input type="email" class="form-control label-floating is-empty" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                       <input type="text" name="quantity" class="form-control" id="quantity"s placeholder="Quantity" data-rule="number" data-msg="Please enter at least 4 chars" />
                       <input type="address" class="form-control label-floating is-empty" name="address" id="address" placeholder="Address" data-rule="required" data-msg="This field is required" />
                       <input type="text" class="form-control label-floating is-empty" name="phone" id="phone" placeholder="Phone" data-rule="required" data-msg="This field is required" />
-                      <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" />
+                      <input type="text" class="form-control label-floating is-empty" name="postalCode" id="postalCode" placeholder="Postal Code" data-rule="number" data-msg="This field is required" /> -->
                       
                     </div>
                   </div>
 
                   <div class = "col-6">
+                    <!-- <label for="orderdetails">Order Details</label><br>
+                    <div class="form-group label-floating is-empty">
+                      <table id ="orderResult">
+                        <tr>Hello
+                        </tr>
+                      </table> -->
+
                     <label for="paymentdetails">Payment Details</label><br>
 
                     <div class="form-group label-floating is-empty">
@@ -270,47 +287,45 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </footer>
 
-  <script src="js/jquery.min.js"></script>
+  <!-- <script src="js/jquery.min.js"></script>
   <script src="js/jquery.easing.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/custom.js"></script>
-  <script src="contactform/contactform.js"></script>
+  <script src="contactform/contactform.js"></script> -->
 
 
     <script>
 
+    // localStorage.clear();
 
-    function passValues(){
-      var name = document.getElementById('name').value;
-      // localStorage.setItem('passName', name);
+    // var data = ['thuy', 123, 'hello', 3453];
+    // localStorage.setItem('passData', data);
 
-      var email = document.getElementbyId("email").value;
-      // localStorage.setItem('passEmail', email);
+      function passValues(){
+      var name = document.getElementById('#name').value;
+      var email = document.getElementbyId("#email").value;
+      var quantity = document.getElementbyId("#quantity").value;
+      var address = document.getElementbyId("#address").value;
+      var phone = document.getElementbyId("#phone").value;
+      var postalCode = document.getElementbyId("#postalCode").value;
 
-      var quantity = document.getElementbyId("quantity").value;
-      // localStorage.setItem('passQuantity', quantity);
+      var data = [name,email,quantity,address,phone,postalCode];
+      
+      localStorage.setItem('passData', data);
 
-      var address = document.getElementbyId("address").passValues;
-      // localStorage.setItem('passAddress', address);
+      }
+      // return False
+    
+    // $('#footerSection').hide();
 
-      var phone = document.getElementbyId("phone").value;
-      // localStorage.setItem('passPhone', phone);
+    // $("#main-container").hide();
 
-      var postalCode = document.getElementbyId("postalCode").value;
-      // localStorage.setItem('passPostalCode', postalCode);
-
-      var data = [];
-      data[0] = prompt(name)
-      // , email, quantity, address, phone, postalCode]
-      localStorage.setItem('passData', JSON.stringify(data));
-
-      return False
-
-    }
-
+    // $("#submitBtn").click(function(){
+    //   $('#footerSection').show();
+    // });
 
         // tweeter part is here
         var rawFile = new XMLHttpRequest();
@@ -343,7 +358,8 @@
      
         // anonymous async function 
         // - using await requires the function that calls it to be async
-          $(async() => { 
+          
+        $(async() => { 
               // Change serviceURL to your own
             var serviceURL = "http://127.0.0.1:5000/delivery_pricing";
      
@@ -357,7 +373,7 @@
      
                 // array or array.length are falsy
                 if (!prices || !prices.length) {
-                    showError('Books list empty or undefined.')
+                    showError('Books list empty or undefined.');
                 } 
                 else {
                     // for loop to setup all table rows with obtained book data
@@ -366,12 +382,12 @@
 
                     for (const one_price of prices) {
                         eachRow =
-                            "<td>" + one_price.price + "</td>" +
-                            "<td>" + one_price.region_name + "</td>" ;
+                            "<td>" + one_price.region_name + "</td>" +
+                            "<td>" + one_price.price + "</td>" ;
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
-                        eachPrice = "<option value=" + one_price.price +">"
-                        foundPrice += eachPrice
+                        eachPrice = "<option value=" + one_price.region_name +">";
+                        foundPrice += eachPrice;
                     }
                     // add all the rows to the table
                     $("#priceTable").append(rows);
@@ -387,33 +403,31 @@
            
         } // error
     });
-    
-    // var name = getElementbyId("#name");
-    // var email = getElementbyId("#email");
-    // var quantity = getElementbyId("#quantity");
-    // var address = getElementbyId("#address");
-    // var phone = getElementbyId("#phone");
-    // var postalCode = getElementbyId("#postalCode");
-
-    // var data = [name, email, quantity, address, phone, postalCode];
-    // localStorage.setItem('objectToPass', data);
+</script>
+  <!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
+<!-- 
+  <script>
 
     // Helper function to display error message
-    $('#tableresults').hide();
+    $('#orderdetails').hide();
     function showError(message) {
         // Hide the table and button in the event of error
-        $('#tableresults').hide();}
+        $('#orderdetails').hide();
+      }
     
     $(function() {        
-    $("#addbookForm").submit(async (event) =>{
+    $("#orderForm").submit(async (event) =>{
     event.preventDefault();
     //$("#error").hide(); 
-    var title = $('#title').val();
-    var isbnNumber = $('#isbn13').val();
-    var price = parseFloat($('#price').val());
-    var availability = parseInt($('#availability').val());
+    var name = $('#name').val();
+    var old_email = $('#email').val();
+    var email = encodeURI(old_email);
+    var quantity = parseInt($('#quantity').val());
+    var address = $('#address').val();
+    var phone = parseInt($('#phone').val());
+    var postalCode= parseInt($('#postalCode').val());
 
-    serviceURL = "http://127.0.0.1:5000/book" + "/" + isbnNumber;
+    serviceURL = "http://127.0.0.1:5000/order" 
 
     try{
         const response = 
@@ -421,47 +435,38 @@
                 serviceURL,{
                 method : "POST",
                 headers: {"Content-Type":"application/json"},
-                body: JSON.stringify ({title:title, price:price, availability:availability })
+                body: JSON.stringify ({name:name, email:email, telegram_id:telegram_id, quantity:quantity, address:address, phone:phone, postalCode:postalCode })
             });
     const data = await response.json();
     if (response.ok){
         window.location.replace(homeURL);
-        return false;
-        
+        return false;   
     }
     else{
-        console.log(data)
-        addBook = 
+        console.log(data);
+        addOrder = 
         "<tbody>" +
-        "<tr>" +
-        "<td>" + title + "</td>" + 
-        "<td>" + isbnNumber + "</td>" +
-        "<td>" + price+ "</td>" +
-        "<td>" + availability + "</td>" +
-        "</tr>" +
+        "<tr>" + name + "</tr>" + 
+        "<tr>" + email + "</tr>" +
+        "<tr>" + quantity+ "</tr>" +
+        "<tr>" + address + "</tr>" +
+        "<tr>" + phone + "</tr>" +
+        "<tr>" + postalCode + "</tr>" +
         "</body>"
-        $("#tableresults").append( addBook );
+        $("#orderResult").append( addOrder );
         showError(data.message);
-        $("#tableresults").show();
-    }
+        $("#orderResult").show();
+        }
     }
     catch (error){
         showError
         ('There is a problem retrieving books data, please try again later.<br />'+error);
             }        
-    })
-    }
-    );
-
+    });
+    });
 
     
-</script>
-
-
-<!-- sending order to order microservice USING POST HTTP - lINK THIS TO THE SUBMIT BUTTON -->
-
-
-
-  </body>
+</script> -->
+</body>
 </html>
 

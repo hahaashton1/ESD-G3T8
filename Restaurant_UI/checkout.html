@@ -129,12 +129,17 @@ span.price {
                 <!-- Email<span id='custEmail'></span>
                 Address:<span id='custAddress'></span> -->
 
-                <script>  
-                var data = JSON.parse(localStorage.getItem("passData"))
-                document.getElementById('1').innerHTML = localStorage.getItem('passData');
+                <!-- <script>  
+                var data = localStorage['passData'];
+                localStorage.removeItem('passData');
+              
+                console.log(data);
+                
+                // var old_ = localStorage.getItem('hello');
+                // console.log(old_);
                 // document.getElementById('custEmail').innerHTML = localStorage.getItem('passEmail');
                 // document.getElementById('custAddress').innerHTML = localStorage.getItem('passAddress');
-                </script>
+                </script> -->
       
                 <!-- <label for="cname">Name</label>
                 <input type="text" id="name" name="cardname" placeholder="">
@@ -153,7 +158,18 @@ span.price {
 
 
             <td>
+              <div class = "col-50">
+                <label for="orderdetails">Order Details</label><br>
+                  <div class="form-group label-floating is-empty">
+                    <table id ="orderResult">
+                      <tr>Hello
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               <div class="col-50">
+                
+                
                 <h3>Payment</h3>
       
                 <label for="cname">Name on Card</label>
@@ -180,8 +196,6 @@ span.price {
             </td>
 
             </tr>
-
-
           </table>
 
           </div>
@@ -209,71 +223,78 @@ span.price {
 </body>
 </html>
 
+<script>
+  var data = localStorage['passData'];
+  localStorage.removeItem('passData');
 
-    <!-- <script>
-        function showError(message) {
-            // Hide the table and button in the event of error
-            $('#Particulars').hide();
-            $('#PaymentDetails').hide();            
-        }
-        
-        $(function() {        
-        $("#orderForm").submit(async (event) =>{
-        event.preventDefault();
-        //$("#error").hide(); 
+  console.log(data);
 
-        var name = $('#name').val();
-        var email = $('#email').val();
-        var quantity = parseInt($('#quantity').val());
-        var address = $('#address').val();
-        var phone = parseInt($('#phone').val());
-        var postalCode = parseInt($('#postalCode').val());
+  // Helper function to display error message
+  // $('#orderResult').hide();
+  // function showError(message) {
+  //     // Hide the table and button in the event of error
+  //     $('#orderResult').hide();
+  //   }
+  
+  $(function() {        
+  $("#orderForm").submit(async (event) =>{
+  event.preventDefault();
+  //$("#error").hide(); 
+  // var name = $('#name').val();
+  // var old_email = $('#email').val();
+  // var email = encodeURI(old_email);
+  // var quantity = parseInt($('#quantity').val());
+  // var address = $('#address').val();
+  // var phone = parseInt($('#phone').val());
+  // var postalCode= parseInt($('#postalCode').val());
 
+  var name = data[0];
+  var email = data[1];
+  var quantity = data[2];
+  var addess = data[3];
+  var phone = data[4];
+  var postalCode = data[5]
+  serviceURL = "http://127.0.0.1:5000/order" 
 
-        serviceURL = "http://127.0.0.1:5000/order";
+  try{
+      const response = 
+          await fetch(
+              serviceURL,{
+              method : "POST",
+              headers: {"Content-Type":"application/json"},
+              body: JSON.stringify ({name:name, email:email, telegram_id:telegram_id, quantity:quantity, address:address, phone:phone, postalCode:postalCode })
+          });
+  const data = await response.json();
+  if (response.ok){
+      window.location.replace(homeURL);
+      return false;   
+  }
+  else{
+      console.log(data);
+      addOrder = 
+      "<tbody>" +
+      "<tr>" + name + "</tr>" + 
+      "<tr>" + data[1] + "</tr>" +
+      "<tr>" + data[2]+ "</tr>" +
+      "<tr>" + data[3] + "</tr>" +
+      "<tr>" + data[4] + "</tr>" +
+      "<tr>" + data[5] + "</tr>" +
+      "</body>"
+      $("#orderResult").append( addOrder );
+      showError(data.message);
+      $("#orderResult").show();
+      }
+  }
+  catch (error){
+      showError
+      ('There is a problem retrieving books data, please try again later.<br />'+error);
+          }        
+  });
+  });
 
-        try{
-            const response = 
-                await fetch(
-                    serviceURL,{
-                    method : "POST",
-                    headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify ({name:name, email:email, quantity:quantity,
-                        address:address, phone:phone, postalCode:postalCode})
-                });
+  
+</script>
 
-        const data = await response.json();
-        if (response.ok){
-            window.location.replace(homeURL);
-            return false;
-            
-        }
-        else{
-            console.log(data)
-            particulars = 
-            "<tbody>" +
-            "<tr>" +
-            "placeholder = " + name + "</td>" + 
-            "<td>" + email + "</td>" +
-            "<td>" + quantity+ "</td>" +
-            "<td>" + address + "</td>" +
-            "<td>" + phone + "</td>" +
-            "<td>" + postalCode + "</td>" +
-            "</tr>" +
-            "</body>"
-            $("#Particulars").append( particulars );
-            showError(data.message);
-            $("#Particulars").show();
-        }
-        }
-        catch (error){
-            showError
-            ('There is a problem retrieving your order particulars, please try again later.<br />'+error);
-                }        
-        })
-        }
-        );
-    </script> -->
 
 </body>
 </html>

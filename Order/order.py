@@ -40,8 +40,23 @@ class Order(db.Model):
     phone = db.Column(db.Integer)
     postalCode = db.Column(db.Integer)
 
+
+    def __init__(self, telegram_id, name, email, quantity, address, phone, postalCode):
+        self.telegram_id = telegram_id
+        self.name = name
+        self.email = email
+        self.quantity = quantity
+        self.address = address 
+        self.phone = phone
+        self.postalCode = postalCode
+
+ 
+    def json(self):
+        return {"order_id": self.order_id, "telegram_id": self.telegram_id, "name": self.name, "quantity": self.quantity, "address": self.address, "phone": self.phone, "postalCode": self.postalCode}
+
 @app.route("/order", methods=['POST'])
 def add_order():
+
 
     data = request.get_json()
     order = Order(**data)
@@ -58,10 +73,11 @@ def add_order():
         
         send_order(orderid, data["address"], data["telegram_id"]) ## Send order to delivery microservice
 
+
     except:
-        return jsonify({"message": "An error occurred creating the order."}), 500
+        return jsonify(order.json()), 500
  
     return jsonify({"Order has been created!"}), 201
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5001, debug=True)

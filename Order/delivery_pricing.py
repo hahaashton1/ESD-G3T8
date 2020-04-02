@@ -25,9 +25,9 @@ class distancePrice(db.Model):
     def json(self):
         return { "price": self.price, "region_name": self.region_name,} 
 
-# @app.route("/delivery_pricing")
-# def get_all():
-# 	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
+@app.route("/delivery_pricing")
+def get_all():
+	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
 
 @app.route("/delivery_pricing/<string:postal>")
 def find_by_postal(postal):
