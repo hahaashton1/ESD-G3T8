@@ -147,7 +147,11 @@ def callback(channel, method, properties, body):
         thisJob.jstatus="Completed"
         thisJob.endtime=datetime.datetime.now()
         db.session.commit()
-
+        #notify the order ms
+        channel.queue_declare(queue="delivery", durable=True)
+        channel.queue_bind(exchange=exchangename, queue="delivery", routing_key="delivery")        
+        channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["completed",[orderid,"Order has been delivered successfully."]]),
+        properties=pika.BasicProperties(delivery_mode=2))
         #notify user
         if (thisJob.telegram):
             error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
@@ -156,7 +160,7 @@ def callback(channel, method, properties, body):
 def worker_check_unassignedjobs(incompletejobs):
     while (True):
         ijobs=incompletejobs.value
-        print("Fantasma was here", ijobs)
+        print("Fantasma is looking for unassigned jobs...", ijobs, "found.")
         #get order from database
         if ijobs > 0:
             undonejob=Jobs.query.filter_by(jstatus="Incomplete").first()
