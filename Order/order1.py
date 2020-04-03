@@ -7,12 +7,10 @@ from os import environ
 
 
 app = Flask(__name__)
-##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+##app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 ## set dbURL=mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc
-
-
 
 db = SQLAlchemy(app)
 CORS(app)
@@ -91,4 +89,4 @@ def add_order():
 
 if __name__ == '__main__':
     ##app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(port=5000, debug=True)
