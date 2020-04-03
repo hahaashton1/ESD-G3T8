@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,13 +181,13 @@ span.price {
         </tr>  
     </table> -->
 
-    <table id="priceTable" class='table table-striped' border='1>
+    <!-- <table id="priceTable" class='table table-striped' border='1>
             <thead class='thead-dark'>
         <tr>
             <th>Region</th>
             <th>Price</th>
         </tr>  
-    </table>
+    </table> -->
 
     <!-- for loop here -->
 
@@ -262,12 +264,6 @@ span.price {
    } // error
 });
 
-  
-  function myFunction() {
-    alert("Transaction completed");
-    // window.location(href = 'index.php');
-  }
-
   </script>
 
 <div class = 'center'>
@@ -275,58 +271,55 @@ span.price {
   <div id="left">
   <!-- <div class="container"> -->
 
-      <form>
+      <!-- <form action = 'subtotal.php' method = 'POST'> -->
         <h3>Order Details</h3>
 
         <label for="name">Name </label>
-        <input type="text" name="name" value="<?php echo $_POST['name'];?>" readonly />
-        
-        <label for="email">Email </label>
-        <input type="text" name="email" value="<?php echo $_POST['email'];?>" readonly />
-          
-        <label for="telegram">Telegram</label>
-        <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" disabled />
-          
-        <label for="quantity">Quantity</label>
-        <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" disabled />
-          
-        <label for="address">Address</label>
-        <input type="text" name="address" value="<?php echo $_POST['address'];?>" disabled />
-          
-        <label for="phone">Phone</label>
-        <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" disabled />
+            <input type="text" name="name" value="<?php echo $_POST['name'];?>" disabled />
 
-        <label for="region">Region</label>
-        <input type="text" name="region" value="<?php echo $_POST['region'];?>" disabled />
+            <label for="email">Email </label>
+            <input type="text" name="email" value="<?php echo $_POST['email'];?>" disabled />
+            
+            <label for="telegram">Telegram</label>
+            <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" disabled />
+            
+            <label for="quantity">Quantity</label>
+            <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" disabled />
+            
+            <label for="address">Address</label>
+            <input type="text" name="address" value="<?php echo $_POST['address'];?>" disabled />
+            
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" disabled />
 
-        <label for="pricing">Delivery Pricing</label>
-        <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" disabled />
-        
-      
+            <label for="region">Region</label>
+            <input type="text" name="region" value="<?php echo $_POST['region'];?>" disabled />
+
+            <label for="pricing">Delivery Pricing</label>
+            <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" disabled />
+
+                
       </div>
 
 
       
       <div id = 'right'>
         <h3>Payment</h3>
-
+        
         <label for="cname">Name on Card</label>
-        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+        <input type="text" id="cname" name="cardname" value = "<? echo $_POST['cname'] ?>">
         <label for="ccnum">Credit card number</label>
-        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+        <input type="text" id="ccnum" name="cardnumber" value = "<? echo $_POST['ccnum'] ?>">
         <label for="expmonth">Exp Month</label>
-        <input type="text" id="expmonth" name="expmonth" placeholder="September">
+        <input type="text" id="expmonth" name="expmonth" value = "<? echo $_POST['expmonth'] ?>">
         <label for="expyear">Exp Year</label>
-        <input type="text" id="expyear" name="expyear" placeholder="2018">
+        <input type="text" id="expyear" name="expyear" value = "<? echo $_POST['expyear'] ?>">
         <label for="cvv">CVV</label>
-        <input type="text" id="cvv" name="cvv" placeholder="352">
-   
-  <!-- <button onlick="popup()"> -->
-  <!-- <button onclick="popup()">Click me</button> -->
+        <input type="text" id="cvv" name="cvv" value = "<? echo $_POST['cvv'] ?>">
 
-  <!-- <button onclick="popup()">Try it</button> -->
 
-  <input type="button" value="Continue to checkout" class="btn" onclick="myFunction()" >
+       
+  <input type="submit" value="Continue to checkout" class="btn">
   </form>
   </div>
   </div>
