@@ -295,7 +295,6 @@ span.price {
 
         <label for="pricing">Delivery Pricing</label>
         <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" disabled />
-        <?$_POST['price']?>
         
       
       </div>

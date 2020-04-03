@@ -414,7 +414,7 @@
               <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
               <input list="delivery_pricing" name = "region" id ="region" placeholder="Region">
-              <input id="price" name="price" type="hidden">
+              <input id="price" name="price" type="hidden" value = 10>
                 <datalist id="delivery_pricing" >
                 </datalist>
               </div>
@@ -492,6 +492,8 @@
                    serviceURL, { method: 'GET' }
                 );
                 const data = await response.json();
+                // console.log(data.prices[0])
+
                 var prices = data.prices; //the arr is in data.books of the JSON data
      
                 // array or array.length are falsy
@@ -502,8 +504,7 @@
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
                     var foundPrice = "";
-
-                    console.log(prices)
+                    // var selectedPrice = "";
 
                     for (const one_price of prices) {
                          
@@ -514,17 +515,16 @@
 
 
                         eachPrice = "<option value=" + one_price.region_name +">";
-                        // selectedPrice = "value=" + one_price.price;
-
                         foundPrice += eachPrice;
-                        // listPrice += selectedPrice;
+                        
                     }
                     // add all the rows to the table
                     $("#priceTable").append(rows);
-                    $("#price").append(data[foundPrice])
                     $("#delivery_pricing").append( foundPrice );
+                // $("#price").append(data[foundPrice].region_name);
 
                 }
+
 
             } catch (error) {
                 // Errors when calling the service; such as network error, 
