@@ -29,6 +29,8 @@ class distancePrice(db.Model):
 def get_all():
 	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
 
+# print(jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]}))
+
 @app.route("/delivery_pricing/<string:postal>")
 def find_by_postal(postal):
     postal = postal[:2] #Retrieve the Postal Sector (1st 2 digits of 6-digit postal codes)

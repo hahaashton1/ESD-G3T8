@@ -414,6 +414,7 @@
               <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
               <input list="delivery_pricing" name = "region" id ="region" placeholder="Region">
+              <input id="price" name="price" type="hidden">
                 <datalist id="delivery_pricing" >
                 </datalist>
               </div>
@@ -461,22 +462,9 @@
 
 
 
-      // function passValues(){
-      // var name = document.getElementById('#name').value;
-      // var email = document.getElementbyId("#email").value;
-      // var quantity = document.getElementbyId("#quantity").value;
-      // var address = document.getElementbyId("#address").value;
-      // var phone = document.getElementbyId("#phone").value;
-      // var postalCode = document.getElementbyId("#postalCode").value;
-
-      // var data = [name,email,quantity,address,phone,postalCode];
-      
-      // localStorage.setItem('passData', data);
-
-      // }
-      // return False
     
-    $('#priceTable').hide();
+    // $('#priceTable').hide();
+    
    
 
 
@@ -515,17 +503,25 @@
                     var rows = "";
                     var foundPrice = "";
 
+                    console.log(prices)
+
                     for (const one_price of prices) {
+                         
                         eachRow =
                             "<td>" + one_price.region_name + "</td>" +
                             "<td>" + one_price.price + "</td>" ;
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
+
                         eachPrice = "<option value=" + one_price.region_name +">";
+                        // selectedPrice = "value=" + one_price.price;
+
                         foundPrice += eachPrice;
+                        // listPrice += selectedPrice;
                     }
                     // add all the rows to the table
                     $("#priceTable").append(rows);
+                    $("#price").append(data[foundPrice])
                     $("#delivery_pricing").append( foundPrice );
 
                 }
