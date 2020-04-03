@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 CORS(app)
 
 ## Sending order confirmation to delivery microservice
-connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",port=5672))
+connection=pika.BlockingConnection(pika.ConnectionParameters(host="host.docker.internal",port=5672))
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
