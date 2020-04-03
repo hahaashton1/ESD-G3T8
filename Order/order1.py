@@ -30,10 +30,10 @@ def send_order(order_id, address, telegram_id):
     channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[order_id,address, telegram_id]]),
         properties=pika.BasicProperties(delivery_mode=2))
 
-channel.queue_declare(queue="order", durable=True)
-channel.queue_bind(exchange=exchangename, queue="order", routing_key='order')
-channel.basic_consume(queue='order', on_message_callback=callback, auto_ack=True)
-channel.start_consuming()
+# channel.queue_declare(queue="order", durable=True)
+# channel.queue_bind(exchange=exchangename, queue="order", routing_key='order')
+# channel.basic_consume(queue='order', on_message_callback=callback, auto_ack=True)
+# channel.start_consuming()
 
  
 class Order(db.Model):
