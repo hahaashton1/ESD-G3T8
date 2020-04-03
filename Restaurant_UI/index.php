@@ -360,7 +360,7 @@
           </div>
         </div>
         <div class="col-md-8 col-sm-8">
-          <form id = "orderForm" action="checkout.html" class="contactForm">
+          <form id = "orderForm" action="checkout.php" class="contactForm" method = "POST">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -413,9 +413,8 @@
         
               <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
-              <input list="delivery_pricing" placeholder="Region">
+              <input list="delivery_pricing" name = "region" id ="region" placeholder="Region">
                 <datalist id="delivery_pricing" >
-           
                 </datalist>
               </div>
               </div>  
@@ -431,7 +430,7 @@
         </div>
 
 
-        <!-- <div id="main-container" class="container"> -->
+        <div id="main-container" class="container">
         <h1 class="display-4">Delivery Pricing</h1>
         <table id="priceTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
@@ -462,45 +461,23 @@
 
 
 
-      function passValues(){
-      var name = document.getElementById('#name').value;
-      var email = document.getElementbyId("#email").value;
-      var quantity = document.getElementbyId("#quantity").value;
-      var address = document.getElementbyId("#address").value;
-      var phone = document.getElementbyId("#phone").value;
-      var postalCode = document.getElementbyId("#postalCode").value;
+      // function passValues(){
+      // var name = document.getElementById('#name').value;
+      // var email = document.getElementbyId("#email").value;
+      // var quantity = document.getElementbyId("#quantity").value;
+      // var address = document.getElementbyId("#address").value;
+      // var phone = document.getElementbyId("#phone").value;
+      // var postalCode = document.getElementbyId("#postalCode").value;
 
-      var data = [name,email,quantity,address,phone,postalCode];
+      // var data = [name,email,quantity,address,phone,postalCode];
       
-      localStorage.setItem('passData', data);
+      // localStorage.setItem('passData', data);
 
-      }
+      // }
       // return False
     
-    // $('#footerSection').hide();
-
-    // $("#main-container").hide();
-
-    // $("#submitBtn").click(function(){
-    //   $('#footerSection').show();
-    // });
-
-        // tweeter part is here
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", "cupcakeg1t8_tweets.csv", true);
-        rawFile.onreadystatechange = function ()
-        {
-            if(rawFile.readyState === 4)
-            {
-                if(rawFile.status === 200 || rawFile.status == 0)
-                {
-                    var allText = rawFile.responseText;
-                    document.getElementById('tweeter').value=allText
-                }
-            }
-        }
-        rawFile.send(null);
-        // tweeter part ends 
+    $('#priceTable').hide();
+   
 
 
         // Helper function to display error message
