@@ -311,7 +311,7 @@
 
             <span class ="clearfix">
               <a class="menu-title" style="bold" >Food Item Name:</a>
-              <a class="menu-price">Vanilla Cupcake</a>
+              <a class="menu-price">Vanilla Cupcake - $3</a>
             </span>
             <div>
               <img src="photo/cupcake.jpg" class ="photo" alt="cupcake" height="200" width="250" >
@@ -359,8 +359,10 @@
             </div>
           </div>
         </div>
+
+
         <div class="col-md-8 col-sm-8">
-          <form id = "orderForm" action="checkout.php" class="contactForm" method = "POST">
+          <form id = "orderForm" action="checkout.php" class="contactForm" method = "POST" target = "formresponse">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -422,24 +424,29 @@
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
-                  <a id = 'submitBtn' onclick="passValues(); return false;">Submit Order</a>
+
+                  
+
+                  <a id = 'submitBtn' name = 'submit'>Submit Order</a>
                 </button>
               </div>
             </div>
           </form>
+          <!-- <iframe name = 'formresponse' width = '300' height = '200'></iframe> -->
+
         </div>
         </div>
 
 
         <div id="main-container" class="container">
-        <h1 class="display-4">Delivery Pricing</h1>
-        <table id="priceTable" class='table table-striped' border='1'>
+        <!-- <h1 class="display-4">Delivery Pricing</h1> -->
+        <!-- <table id="priceTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
         <tr>
             <th>Region</th>
             <th>Price</th>
         </tr>  
-    </table>
+    </table> -->
     </div>  
     <label id="error" class="text-danger"></label>
   

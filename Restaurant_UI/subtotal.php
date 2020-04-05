@@ -4,7 +4,6 @@
 <html>
 <head>
 
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Required meta tags -->
@@ -45,42 +44,13 @@ body {
   box-sizing: border-box;
 }
 
-/* .row {
-  display: -ms-flexbox; 
-  display: flex;
-  -ms-flex-wrap: wrap; 
-  flex-wrap: wrap;
-  margin: 0 -16px;
-}
-
-.col-25 {
-  -ms-flex: 25%; 
-  flex: 25%;
-}
-
-.col-50 {
-  -ms-flex: 50%; 
-  flex: 50%;
-}
-
-.col-75 {
-  -ms-flex: 75%; 
-  flex: 75%;
-}
-
-.col-25,
-.col-50,
-.col-75 {
-  padding: 0 16px;
-}  */
-
 #left {
-  width: 600px;
+  width: 400px;
   float: left;
   padding: 20px;
 }
 #right {
-  width: 600px;
+  width: 400px;
   float: left;
   padding: 20px;
 
@@ -168,137 +138,75 @@ span.price {
   }
 }
 
+input[type="text"], textarea {
+
+background-color : #d1d1d1; 
+
+}
+
 
 </style>
 </head>
+
 <body>
+<?php
 
-      <!-- <table id="priceTable" class='table table-striped' border='1'>
-            <thead class='thead-dark'>
-        <tr>
-            <th>Region</th>
-            <th>Price</th>
-        </tr>  
-    </table> -->
-
-    <!-- <table id="priceTable" class='table table-striped' border='1>
-            <thead class='thead-dark'>
-        <tr>
-            <th>Region</th>
-            <th>Price</th>
-        </tr>  
-    </table> -->
-
-    <!-- for loop here -->
-
-    <?
-      
-    ?>
-<script>
-  
-  
-// $('#priceTable').hide();
-   
+// include 'checkout.php';
 
 
-   // Helper function to display error message
-   function showError(message) {
-       // Hide the table and button in the event of error
-       $("#priceTable").hide();
-       // $('#addBookBtn').hide();
+// $_SESSION['name'] = $name;
+// echo $_SESSION['name'];
 
-       // Display an error under the main container
-       $("#main-container")
-           .append("<label>"+message+"</label>");
-   }
+// $name = $_POST['name'];
+// $email = $_POST['email'];
+// $telegram_id = $_POST['telegram_id'];
+// $quantity = $_POST['quantity'];
+// $address = $_POST['address'];
+// $phone= $_POST['phone'];
+// $region = $_POST['region'];
+// $pricing = $_POST['pricing'];
 
-   // anonymous async function 
-   // - using await requires the function that calls it to be async
-     
-   $(async() => { 
-         // Change serviceURL to your own
-       var serviceURL = "http://127.0.0.1:5000/delivery_pricing";
+// $cardname = $_POST['cardname'];
+// $cardnumber= $_POST['cardnumber'];
+// $expmonth = $_POST['expmonth'];
+// $expyear = $_POST['expyear'];
+// $cvv = $_POST['cvv'];
 
-       try {
-           const response =
-            await fetch(
-              serviceURL, { method: 'GET' }
-           );
-           const data = await response.json();
-           var prices = data.prices; //the arr is in data.books of the JSON data
-
-           // array or array.length are falsy
-           if (!prices || !prices.length) {
-               showError('Books list empty or undefined.');
-           } 
-           else {
-               // for loop to setup all table rows with obtained book data
-               var rows = "";
-               var foundPrice = "";
-
-               for (const one_price of prices) {
-                   eachRow =
-                       "<td>" + one_price.region_name + "</td>" +
-                       "<td>" + one_price.price + "</td>" ;
-                   rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-
-                   eachPrice = "<option value=" + one_price.region_name +">";
-                   foundPrice += eachPrice;
-               }
-               // add all the rows to the table
-               $("#priceTable").append(rows);
-              //  $("#delivery_pricing").append( foundPrice );
-             
-
-           }
-
-           document.getElementByID("pricing").value = prices[<?$_POST['region']?>];
-
-
-       } catch (error) {
-           // Errors when calling the service; such as network error, 
-           // service offline, etc
-           showError
-           ('There is a problem retrieving books data, please try again later.<br />'+error);
-      
-   } // error
-});
-
-  </script>
+?>
 
 <div class = 'center'>
 <h2> Checkout Form</h2> 
   <div id="left">
-  <!-- <div class="container"> -->
+  <!-- <div class="input-box"> -->
 
-      <!-- <form action = 'subtotal.php' method = 'POST'> -->
+      <!-- <form id="checkoutForm"> -->
         <h3>Order Details</h3>
-
+        <form id = 'form1' action = "subtotal.php" method = 'POST'>
         <label for="name">Name </label>
-            <input type="text" name="name" value="<?php echo $_POST['name'];?>" disabled />
+        <input type="text" id = 'name' name="name" value="<?php echo $_POST['name'];?>" readonly />
+        
+        <label for="email">Email </label>
+        <input type="text" name="email" value="<?php echo $_POST['email'];?>" readonly />
+          
+        <label for="telegram">Telegram</label>
+        <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" readonly />
+          
+        <label for="quantity">Quantity</label>
+        <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" readonly />
+          
+        <label for="address">Address</label>
+        <input type="text" name="address" value="<?php echo $_POST['address'];?>" readonly />
+          
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" readonly />
 
-            <label for="email">Email </label>
-            <input type="text" name="email" value="<?php echo $_POST['email'];?>" disabled />
-            
-            <label for="telegram">Telegram</label>
-            <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" disabled />
-            
-            <label for="quantity">Quantity</label>
-            <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" disabled />
-            
-            <label for="address">Address</label>
-            <input type="text" name="address" value="<?php echo $_POST['address'];?>" disabled />
-            
-            <label for="phone">Phone</label>
-            <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" disabled />
+        <label for="region">Region</label>
+        <input type="text" name="region" value="<?php echo $_POST['region'];?>" readonly />
 
-            <label for="region">Region</label>
-            <input type="text" name="region" value="<?php echo $_POST['region'];?>" disabled />
-
-            <label for="pricing">Delivery Pricing</label>
-            <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" disabled />
-
-                
+        <label for="pricing">Delivery Pricing</label>
+        <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" readonly />
+        
+      
       </div>
 
 
@@ -307,24 +215,29 @@ span.price {
         <h3>Payment</h3>
         
         <label for="cname">Name on Card</label>
-        <input type="text" id="cname" name="cardname" value = "<? echo $_POST['cname'] ?>">
+        <input type="text" id="cname" name="cardname" value = "<?php echo $_POST['cardname']; ?>" readonly>
         <label for="ccnum">Credit card number</label>
-        <input type="text" id="ccnum" name="cardnumber" value = "<? echo $_POST['ccnum'] ?>">
+        <input type="text" id="ccnum" name="cardnumber" value = "<?php echo $_POST['cardnumber']; ?>" readonly>
         <label for="expmonth">Exp Month</label>
-        <input type="text" id="expmonth" name="expmonth" value = "<? echo $_POST['expmonth'] ?>">
+        <input type="text" id="expmonth" name="expmonth" value = "<?php echo $_POST['expmonth']; ?>" readonly>
         <label for="expyear">Exp Year</label>
-        <input type="text" id="expyear" name="expyear" value = "<? echo $_POST['expyear'] ?>">
+        <input type="text" id="expyear" name="expyear" value = "<?php echo $_POST['expyear']; ?>" readonly>
         <label for="cvv">CVV</label>
-        <input type="text" id="cvv" name="cvv" value = "<? echo $_POST['cvv'] ?>">
-
+        <input type="text" id="cvv" name="cvv" value = "<?php echo $_POST['cvv']; ?>" readonly>
 
        
-  <input type="submit" value="Continue to checkout" class="btn">
-  </form>
-  </div>
-  </div>
-  
+    </div>
 
+    <div id = 'right'>
+        <h3>SubTotal</h3>
+        
+        <label for="cname">Shipping</label>
+        <input type="text" id="cname" name="cardname" placeholder = 'price'>
+        
+       
+  </div>
+  </div>
+</div>
 </body>
+</head>
 </html>
-
