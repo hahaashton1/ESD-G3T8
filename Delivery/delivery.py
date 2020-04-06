@@ -152,10 +152,11 @@ def callback(channel, method, properties, body):
             error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
             print(error)
         #notify order
-        channel.queue_declare(queue="order", durable=True)
-        channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
-        channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
-        properties=pika.BasicProperties(delivery_mode=2))
+        print("Completed order", completed_orderid, "has been sent to Order MS")
+        # channel.queue_declare(queue="order", durable=True)
+        # channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
+        # channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
+        # properties=pika.BasicProperties(delivery_mode=2))
 
 def worker_check_unassignedjobs(incompletejobs):
     while (True):
