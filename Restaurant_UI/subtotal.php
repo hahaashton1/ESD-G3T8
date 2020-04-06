@@ -149,30 +149,6 @@ background-color : #d1d1d1;
 </head>
 
 <body>
-<?php
-
-// include 'checkout.php';
-
-
-// $_SESSION['name'] = $name;
-// echo $_SESSION['name'];
-
-// $name = $_POST['name'];
-// $email = $_POST['email'];
-// $telegram_id = $_POST['telegram_id'];
-// $quantity = $_POST['quantity'];
-// $address = $_POST['address'];
-// $phone= $_POST['phone'];
-// $region = $_POST['region'];
-// $pricing = $_POST['pricing'];
-
-// $cardname = $_POST['cardname'];
-// $cardnumber= $_POST['cardnumber'];
-// $expmonth = $_POST['expmonth'];
-// $expyear = $_POST['expyear'];
-// $cvv = $_POST['cvv'];
-
-?>
 
 <div class = 'center'>
 <h2> Checkout Form</h2> 
@@ -206,7 +182,7 @@ background-color : #d1d1d1;
         <label for="pricing">Delivery Pricing</label>
         <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" readonly />
         
-      
+        
       </div>
 
 
@@ -230,11 +206,31 @@ background-color : #d1d1d1;
 
       <div id = 'right'>
           <h3>SubTotal</h3>
-          
-          <label for="cname">Shipping</label>
-          <input type="text" id="cname" name="cardname" placeholder = 'price'>
+          <?php
+            $total = 0;
+            $quantity = $_POST['quantity'];
+            $quantity = (int) $quantity;
+            $pricing = $_POST['price'];
+            $pricing = (float) $pricing;
+
+            $total = $quantity * 3 + $pricing;
+    
+          ?>
+
+          <label for="cname">Subtotal (incl. delivery)</label>
+          <input type="text" id="cname" name="cardname" placeholder = "$ <?php echo $total; ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
+
+          <!-- border:1px solid #ff0000;  -->
+
+          <div class="col-md-12 btnpad">
+              <div class="contacts-btn-pad">
+                <button class = 'contacts-btn' >
+                  <a id = 'submitBtn' name = 'submit'>Final Checkout</a>
+                </button>
+              </div>
+            </div>
       </div>
-      <input type = 'submit'>
+      
        
   </div>
   </div>
