@@ -35,6 +35,22 @@ def send_order(order_id, address, telegram_id):
 # channel.basic_consume(queue='order', on_message_callback=callback, auto_ack=True)
 # channel.start_consuming()
 
+def receiveOrder():
+    # set up the exchange if the exchange doesn't exist
+    exchangename="order_direct"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
+
+    replyqueuename="shipping.reply"
+    channel.queue_declare(queue=replyqueuename, durable=True) # make sure the queue used for "reply_to" is durable for reply messages
+    channel.queue_bind(exchange=exchangename, queue=replyqueuename, routing_key=replyqueuename) # make sure the reply_to queue is bound to the exchange
+    # set up a consumer and start to wait for coming messages
+    channel.basic_qos(prefetch_count=1) # The "Quality of Service" setting makes the broker distribute only one message to a consumer if the consumer is available (i.e., having finished processing and acknowledged all previous messages that it receives)
+    channel.basic_consume(queue=replyqueuename,
+            on_message_callback=reply_callback, # set up the function called by the broker to process a received message
+    ) # prepare the reply_to receiver
+    channel.start_consuming() # an implicit loop waiting to receive messages; it doesn't exit by default. Use Ctrl+C in the command window to terminate it.
+
+
  
 class Order(db.Model):
     __tablename__ = 'orders'
