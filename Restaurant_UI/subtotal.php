@@ -254,25 +254,23 @@ background-color : #d1d1d1;
         var homeURL = "http://127.0.0.1/index.php";
 
         //Get form data 
-        var telegram_id = $('#telegram_id').val();
-        var email = $('#email').val();
-        var name = $('#name').val();
-        var quantity = parseInt($("#quantity").val());
-        var price = parseFloat("#price").val());
-        var address = $("#address").val();
-        var phone = $("#phone").val();
-        var postalCode = $("#postalCode").val();
+        var telegram_id = $_POST['telegram_id']
+        var email = $_POST['email'];
+        var name = $_POST['name'];
+        var quantity = $_POST['quantity'];
+        var price = $_POST['pricing'];
+        var address = $_POST['address'];
+        var phone = $_POST['phone'];
+        var region = $_POST['region'];
 
         // form the POST url which includes the dynamic isbnNumber
-        serviceURL += name;
         try {
             const response =
                 await fetch(
                     serviceURL, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ telegram_id: telegram_id, email: email, name: name,
-                      quantity: quantity,price: price, address:address, phone:phone, postalCode:postalCode  })
+                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
                 });
 
             const data = await response.json();
@@ -282,7 +280,7 @@ background-color : #d1d1d1;
                 window.location.replace(homeURL);
                 return false;
             } else {
-                console.log(data);
+                // console.log(data);
                 showError(data.message);
             }
         } catch (error) {
