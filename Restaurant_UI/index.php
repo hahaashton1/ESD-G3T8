@@ -452,9 +452,6 @@
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
-
-                  
-
                   <a id = 'submitBtn' name = 'submit'>Submit Order</a>
                 </button>
               </div>
