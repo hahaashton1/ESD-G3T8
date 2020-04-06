@@ -317,7 +317,16 @@ span.price {
         <label for="cvv">CVV</label>
         <input type="text" id="cvv" name="cvv" placeholder="352">
  
-        <button type="submit" id = "formbutton">Continue to checkout</button>
+
+        <div class="col-md-12 btnpad">
+              <div class="contacts-btn-pad">
+                <button class = 'contacts-btn' >
+                  <a id = 'submitBtn' name = 'submit'>Continue to Checkout</a>
+                </button>
+              </div>
+            </div>
+
+        <!-- <button type="submit" id = "formbutton">Continue to checkout</button> -->
 
         </form>
 
