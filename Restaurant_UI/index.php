@@ -311,7 +311,7 @@
 
             <span class ="clearfix">
               <a class="menu-title" style="bold" >Food Item Name:</a>
-              <a class="menu-price">Vanilla Cupcake</a>
+              <a class="menu-price">Vanilla Cupcake - $3</a>
             </span>
             <div>
               <img src="photo/cupcake.jpg" class ="photo" alt="cupcake" height="200" width="250" >
@@ -359,8 +359,10 @@
             </div>
           </div>
         </div>
+
+
         <div class="col-md-8 col-sm-8">
-          <form id = "orderForm" action="checkout.html" class="contactForm">
+          <form id = "orderForm" action="checkout.php" class="contactForm" method = "POST" target = "formresponse">
             <div id="sendmessage">Your booking request has been sent. Thank you!</div>
             <div id="errormessage"></div>
 
@@ -413,33 +415,38 @@
         
               <div class="col-md-6 col-sm-6 contact-form">
               <div class="form-group">
-              <input list="delivery_pricing" placeholder="Region">
+              <input list="delivery_pricing" name = "region" id ="region" placeholder="Region">
+              <input id="price" name="price" type="hidden" value = 10>
                 <datalist id="delivery_pricing" >
-           
                 </datalist>
               </div>
               </div>  
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
-                  <a id = 'submitBtn' onclick="passValues(); return false;">Submit Order</a>
+
+                  
+
+                  <a id = 'submitBtn' name = 'submit'>Submit Order</a>
                 </button>
               </div>
             </div>
           </form>
+          <!-- <iframe name = 'formresponse' width = '300' height = '200'></iframe> -->
+
         </div>
         </div>
 
 
-        <!-- <div id="main-container" class="container"> -->
-        <h1 class="display-4">Delivery Pricing</h1>
-        <table id="priceTable" class='table table-striped' border='1'>
+        <div id="main-container" class="container">
+        <!-- <h1 class="display-4">Delivery Pricing</h1> -->
+        <!-- <table id="priceTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
         <tr>
             <th>Region</th>
             <th>Price</th>
         </tr>  
-    </table>
+    </table> -->
     </div>  
     <label id="error" class="text-danger"></label>
   
@@ -462,45 +469,10 @@
 
 
 
-      function passValues(){
-      var name = document.getElementById('#name').value;
-      var email = document.getElementbyId("#email").value;
-      var quantity = document.getElementbyId("#quantity").value;
-      var address = document.getElementbyId("#address").value;
-      var phone = document.getElementbyId("#phone").value;
-      var postalCode = document.getElementbyId("#postalCode").value;
-
-      var data = [name,email,quantity,address,phone,postalCode];
-      
-      localStorage.setItem('passData', data);
-
-      }
-      // return False
     
-    // $('#footerSection').hide();
-
-    // $("#main-container").hide();
-
-    // $("#submitBtn").click(function(){
-    //   $('#footerSection').show();
-    // });
-
-        // tweeter part is here
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", "cupcakeg1t8_tweets.csv", true);
-        rawFile.onreadystatechange = function ()
-        {
-            if(rawFile.readyState === 4)
-            {
-                if(rawFile.status === 200 || rawFile.status == 0)
-                {
-                    var allText = rawFile.responseText;
-                    document.getElementById('tweeter').value=allText
-                }
-            }
-        }
-        rawFile.send(null);
-        // tweeter part ends 
+    // $('#priceTable').hide();
+    
+   
 
 
         // Helper function to display error message
@@ -527,6 +499,8 @@
                    serviceURL, { method: 'GET' }
                 );
                 const data = await response.json();
+                // console.log(data.prices[0])
+
                 var prices = data.prices; //the arr is in data.books of the JSON data
      
                 // array or array.length are falsy
@@ -537,21 +511,27 @@
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
                     var foundPrice = "";
+                    // var selectedPrice = "";
 
                     for (const one_price of prices) {
+                         
                         eachRow =
                             "<td>" + one_price.region_name + "</td>" +
                             "<td>" + one_price.price + "</td>" ;
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
+
                         eachPrice = "<option value=" + one_price.region_name +">";
                         foundPrice += eachPrice;
+                        
                     }
                     // add all the rows to the table
                     $("#priceTable").append(rows);
                     $("#delivery_pricing").append( foundPrice );
+                // $("#price").append(data[foundPrice].region_name);
 
                 }
+
 
             } catch (error) {
                 // Errors when calling the service; such as network error, 

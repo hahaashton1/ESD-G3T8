@@ -7,18 +7,16 @@ from os import environ
 
 
 app = Flask(__name__)
-##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/200cc_order'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+##app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 ## set dbURL=mysql+mysqlconnector://admin:password@orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com:3306/200cc
-
-
 
 db = SQLAlchemy(app)
 CORS(app)
 
 ## Sending order confirmation to delivery microservice
-connection=pika.BlockingConnection(pika.ConnectionParameters(host="host.docker.internal",port=5672))
+connection=pika.BlockingConnection(pika.ConnectionParameters(host="localhost",port=5672))
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
@@ -32,10 +30,10 @@ def send_order(order_id, address, telegram_id):
     channel.basic_publish(exchange=exchangename, routing_key="delivery", body=json.dumps(["order",[order_id,address, telegram_id]]),
         properties=pika.BasicProperties(delivery_mode=2))
 
-channel.queue_declare(queue="order", durable=True)
-channel.queue_bind(exchange=exchangename, queue="order", routing_key='order')
-channel.basic_consume(queue='order', on_message_callback=callback, auto_ack=True)
-channel.start_consuming()
+# channel.queue_declare(queue="order", durable=True)
+# channel.queue_bind(exchange=exchangename, queue="order", routing_key='order')
+# channel.basic_consume(queue='order', on_message_callback=callback, auto_ack=True)
+# channel.start_consuming()
 
  
 class Order(db.Model):
@@ -45,6 +43,7 @@ class Order(db.Model):
     email = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(200))
     quantity = db.Column(db.Integer)
+    price = db.Column(db.Integer)
     address = db.Column(db.String(200))
     phone = db.Column(db.Integer)
     postalCode = db.Column(db.Integer)
@@ -91,4 +90,4 @@ def add_order():
 
 if __name__ == '__main__':
     ##app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(port=5000, debug=True)
