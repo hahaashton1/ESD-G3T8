@@ -46,7 +46,7 @@ class Order(db.Model):
     price = db.Column(db.Integer)
     address = db.Column(db.String(200))
     phone = db.Column(db.Integer)
-    postalCode = db.Column(db.Integer)
+    region = db.Column(db.String(200))
 
 # class Transactions(db.Model):
 #     __tablename__ = 'transactions'
