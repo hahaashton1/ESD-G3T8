@@ -179,7 +179,7 @@ background-color : #d1d1d1;
   <div id="left">
   <!-- <div class="input-box"> -->
 
-      <!-- <form id="checkoutForm"> -->
+      <form id="subtotalForm">
         <h3>Order Details</h3>
         <form id = 'form1' action = "subtotal.php" method = 'POST'>
         <label for="name">Name </label>
@@ -226,18 +226,75 @@ background-color : #d1d1d1;
         <input type="text" id="cvv" name="cvv" value = "<?php echo $_POST['cvv']; ?>" readonly>
 
        
-    </div>
+      </div>
 
-    <div id = 'right'>
-        <h3>SubTotal</h3>
-        
-        <label for="cname">Shipping</label>
-        <input type="text" id="cname" name="cardname" placeholder = 'price'>
-        
+      <div id = 'right'>
+          <h3>SubTotal</h3>
+          
+          <label for="cname">Shipping</label>
+          <input type="text" id="cname" name="cardname" placeholder = 'price'>
+      </div>
+      <input type = 'submit'>
        
   </div>
   </div>
 </div>
+
+<script>
+ function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);
+    }
+
+    $("#subtotalForm").submit(async (event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
+
+        var serviceURL = "http://127.0.0.1:5000/order1.py";
+        var homeURL = "http://127.0.0.1/index.php";
+
+        //Get form data 
+        var telegram_id = $('#telegram_id').val();
+        var email = $('#email').val();
+        var name = $('#name').val();
+        var quantity = parseInt($("#quantity").val());
+        var price = parseFloat("#price").val());
+        var address = $("#address").val();
+        var phone = $("#phone").val();
+        var postalCode = $("#postalCode").val();
+
+        // form the POST url which includes the dynamic isbnNumber
+        serviceURL += name;
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ telegram_id: telegram_id, email: email, name: name,
+                      quantity: quantity,price: price, address:address, phone:phone, postalCode:postalCode  })
+                });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // relocate to home page
+                window.location.replace(homeURL);
+                return false;
+            } else {
+                console.log(data);
+                showError(data.message);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem submiting your order, please try again later. " + error);
+
+        } // error
+    });
+
+</script>
 </body>
 </head>
 </html>

@@ -414,13 +414,41 @@
             </div>
         
               <div class="col-md-6 col-sm-6 contact-form">
-              <div class="form-group">
-              <input list="delivery_pricing" name = "region" id ="region" placeholder="Region">
-              <input id="price" name="price" type="hidden" value = 10>
-                <datalist id="delivery_pricing" >
-                </datalist>
+                <div class="form-group">
+                  <input list="delivery_pricing" name = "region" id ="region" >
+                  <datalist id="delivery_pricing" >
+                  </datalist>
+                </div>
               </div>
-              </div>  
+
+          <script>
+              $("#region").change(function(){
+
+              var region=$("#region").val();
+              var value = $('#delivery_pricing option').filter(function() {
+                return this.value == region;
+              }).data('value');
+
+              var msg = value ? value : 'No Match';
+              document.getElementById("priceval").value = msg;
+
+              // alert(msg);
+
+              });
+          
+
+          </script>
+
+                      
+          <div class="col-md-6 col-sm-6 contact-form">
+            <div class="form-group">
+              <input type = "hidden" name = "price" id = "priceval">
+            </div>
+          </div>  
+
+
+
+
             <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button class = 'contacts-btn' >
@@ -432,7 +460,6 @@
               </div>
             </div>
           </form>
-          <!-- <iframe name = 'formresponse' width = '300' height = '200'></iframe> -->
 
         </div>
         </div>
@@ -492,7 +519,8 @@
         $(async() => { 
               // Change serviceURL to your own
             var serviceURL = "http://127.0.0.1:5000/delivery_pricing";
-     
+            var dict = new Object();
+
             try {
                 const response =
                  await fetch(
@@ -515,24 +543,24 @@
 
                     for (const one_price of prices) {
                          
-                        eachRow =
-                            "<td>" + one_price.region_name + "</td>" +
-                            "<td>" + one_price.price + "</td>" ;
-                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        // eachRow =
+                        //     "<td>" + one_price.region_name + "</td>" +
+                        //     "<td>" + one_price.price + "</td>" ;
+                        // rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
 
-                        eachPrice = "<option value=" + one_price.region_name +">";
-                        foundPrice += eachPrice;
+                        eachRegion = "<option data-value = " + one_price.price + ">" + one_price.region_name +"</option>";
+                        $("#delivery_pricing").append( eachRegion );
+
+                        // eachPrice = "<option value =" + one_price.region_name + ">" + one_price.price +"</option>";
+                        // $("#price").append( eachPrice 
+                        dict[one_price.region_name] = one_price.price;
+                        
                         
                     }
-                    // add all the rows to the table
+
                     $("#priceTable").append(rows);
-                    $("#delivery_pricing").append( foundPrice );
-                // $("#price").append(data[foundPrice].region_name);
-
                 }
-
-
             } catch (error) {
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
