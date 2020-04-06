@@ -58,7 +58,7 @@ class Order(db.Model):
 #     ##time = db.Column(datetime.now())
 
  
-@app.route("/order1", methods=['POST'])
+@app.route("/order", methods=['POST'])
 def add_order():
 
     ## Get order data from UI

@@ -246,7 +246,7 @@ background-color : #d1d1d1;
         //Prevents screen from refreshing when submitting
         event.preventDefault();
 
-        var serviceURL = "http://127.0.0.1:5000/order1.py";
+        var serviceURL = "http://127.0.0.1:5000/order";
         var homeURL = "http://127.0.0.1/index.php";
 
         //Get form data 
