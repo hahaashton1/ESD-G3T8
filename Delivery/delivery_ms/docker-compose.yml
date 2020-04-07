@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  deliveryms:
+    image: deliveryms
+    build:
+      context: .
+      dockerfile: Dockerfile
