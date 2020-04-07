@@ -13,7 +13,7 @@ class distancePrice(db.Model):
     __tablename__ = 'DistancePrice' 
  
     
-    region_name = db.Column(db.String(2), primary_key=True)
+    region_name = db.Column(db.String(100), primary_key=True)
     price = db.Column(db.Float(precision=2), nullable=False)
 
  

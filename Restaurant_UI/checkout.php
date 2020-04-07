@@ -165,7 +165,7 @@ span.price {
      
 //    $(async() => { 
 //          // Change serviceURL to your own
-//        var serviceURL = "http://127.0.0.1:5000/delivery_pricing";
+//        var serviceURL = "http://127.0.0.1:5000/delivery_price";
 
 //        try {
 //            const response =
@@ -195,12 +195,12 @@ span.price {
 //                }
 //                // add all the rows to the table
 //                $("#priceTable").append(rows);
-//               //  $("#delivery_pricing").append( foundPrice );
+//               //  $("#delivery_price").append( foundPrice );
              
 
 //            }
 
-//            document.getElementByID("pricing").value = prices[<?$_POST['region']?>];
+//            document.getElementByID("price").value = prices[<?$_POST['region']?>];
 
 
 //        } catch (error) {
@@ -265,27 +265,6 @@ span.price {
 //   })
 
   </script>
- <?
-  // if(isset($_POST['submit'])){
-  // $_SESSION['name'] = $_POST['name'];
-  // $_SESSION['email'] = $_POST['email'];
-  // $_SESSION['telegram_id'] = $_POST['telegram_id'];
-  // $_SESSION['quantity'] = $_POST['quantity'];
-  // $_SESSION['address'] = $_POST['address'];
-  // $_SESSION['phone'] = $_POST['phone'];
-  // $_SESSION['region'] = $_POST['region'];
-  // $_SESSION['pricing'] = $_POST['pricing'];
-
-  // $_SESSION['cardname'] = $_POST['cardname'];
-  // $_SESSION['cardnumber'] = $_POST['cardnumber'];
-  // $_SESSION['expmonth'] = $_POST['expmonth'];
-  // $_SESSION['expyear'] = $_POST['expyear'];
-  // $_SESSION['cvv'] = $_POST['cvv'];
-
-
-  // header("Location: subtotal.php");
-  // exit();
-?>
 
 <div class = 'center'>
 <h2> Checkout Form</h2> 
@@ -316,8 +295,8 @@ span.price {
         <label for="region">Region</label>
         <input type="text" name="region" value="<?php echo $_POST['region'];?>" readonly />
 
-        <label for="pricing">Delivery Pricing</label>
-        <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" readonly />
+        <label for="price">Delivery price</label>
+        <input type="text" name="price" id="price" value="<?php echo $_POST['price'];?>" readonly />
         
       
       </div>
@@ -338,7 +317,16 @@ span.price {
         <label for="cvv">CVV</label>
         <input type="text" id="cvv" name="cvv" placeholder="352">
  
-        <button type="submit" id = "formbutton">Continue to checkout</button>
+
+        <div class="col-md-12 btnpad">
+              <div class="contacts-btn-pad">
+                <button class = 'contacts-btn' >
+                  <a id = 'submitBtn' name = 'submit'>Continue to Checkout</a>
+                </button>
+              </div>
+            </div>
+
+        <!-- <button type="submit" id = "formbutton">Continue to checkout</button> -->
 
         </form>
 
