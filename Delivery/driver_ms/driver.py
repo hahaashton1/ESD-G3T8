@@ -5,11 +5,12 @@ import json
 import atexit
 import multiprocessing
 import time
+import os
 
-hostname="localhost"
-port=5672
-userid=None
-connection=pika.BlockingConnection(pika.ConnectionParameters(host=hostname,port=port))
+url = os.environ.get('CLOUDAMQP_URL', 'amqp://sbxhlzzm:q42q4qSoxVcLot-eh0-7XCICIM88hjX-@hornet.rmq.cloudamqp.com/sbxhlzzm')
+params = pika.URLParameters(url)
+
+connection=pika.BlockingConnection(params)
 channel=connection.channel()
 exchangename="delivery_exchange"
 channel.exchange_declare(exchange=exchangename, exchange_type='topic')
