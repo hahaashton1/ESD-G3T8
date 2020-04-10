@@ -162,25 +162,25 @@ background-color : #d1d1d1;
         <input type="text" id = 'name' name="name" value="<?php echo $_POST['name'];?>" readonly />
         
         <label for="email">Email </label>
-        <input type="text" name="email" value="<?php echo $_POST['email'];?>" readonly />
+        <input type="text" id = 'email' name="email" value="<?php echo $_POST['email'];?>" readonly />
           
         <label for="telegram">Telegram</label>
-        <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" readonly />
+        <input type="text" id = 'telegram_id' name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" readonly />
           
         <label for="quantity">Quantity</label>
-        <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" readonly />
+        <input type="text" id = 'quantity' name="quantity" value="<?php echo $_POST['quantity'];?>" readonly />
           
         <label for="address">Address</label>
-        <input type="text" name="address" value="<?php echo $_POST['address'];?>" readonly />
+        <input type="text" id = 'address' name="address" value="<?php echo $_POST['address'];?>" readonly />
           
         <label for="phone">Phone</label>
-        <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" readonly />
+        <input type="text" id = 'phone' name="phone" value="<?php echo $_POST['phone'];?>" readonly />
 
         <label for="region">Region</label>
-        <input type="text" name="region" value="<?php echo $_POST['region'];?>" readonly />
+        <input type="text" id = 'region' name="region" value="<?php echo $_POST['region'];?>" readonly />
 
-        <label for="pricing">Delivery Pricing</label>
-        <input type="text" name="pricing" id="pricing" value="<?php echo $_POST['price'];?>" readonly />
+        <label for="price">Delivery Pricing</label>
+        <input type="text" id = 'price' name="price" id="price" value="<?php echo $_POST['price'];?>" readonly />
         
         
       </div>
@@ -210,10 +210,10 @@ background-color : #d1d1d1;
             $total = 0;
             $quantity = $_POST['quantity'];
             $quantity = (int) $quantity;
-            $pricing = $_POST['price'];
-            $pricing = (float) $pricing;
+            $price = $_POST['price'];
+            $price = (float) $price;
 
-            $total = $quantity * 3 + $pricing;
+            $total = $quantity * 3 + $price;
     
           ?>
 
@@ -224,13 +224,23 @@ background-color : #d1d1d1;
 
           <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
-                <button class = 'contacts-btn' >
-                  <a id = 'submitBtn' name = 'submit'>Final Checkout</a>
+                <button id ='submitBtn' class = 'contacts-btn' >Final Checkout
+                  <!-- <a id = 'submitBtn' name = 'submit'>Final Checkout</a> -->
                 </button>
               </div>
             </div>
       </div>
-      
+      <table id="tableresults" class='table table-striped'>
+        <tr>
+            <th>cname</th>
+            <th>ccnumber</th>
+            <th>expmonth</th>
+            <th>expyear</th>
+            <th>cvv</th>
+
+        </tr>  
+    </table>
+
        
   </div>
   </div>
@@ -246,27 +256,28 @@ background-color : #d1d1d1;
         //Prevents screen from refreshing when submitting
         event.preventDefault();
 
-        var serviceURL = "http://127.0.0.1:5000/order";
+        var serviceURL = "http://127.0.0.1:5000/order.py";
         var homeURL = "http://127.0.0.1/index.php";
 
         //Get form data 
-        var telegram_id = $_POST['telegram_id']
-        var email = $_POST['email'];
-        var name = $_POST['name'];
-        var quantity = $_POST['quantity'];
-        var price = $_POST['pricing'];
-        var address = $_POST['address'];
-        var phone = $_POST['phone'];
-        var region = $_POST['region'];
+
+        var cname = $('#cname').val();
+        var ccnumber = $('#ccnumber').val();
+        var expmonth= $('#expmonth').val();
+        var expyear = $('#expyear').val();
+        var cvv = $('#cvv').val();
+
+
+        serviceURL = "http://127.0.0.1:5000/order";
 
         // form the POST url which includes the dynamic isbnNumber
         try {
             const response =
                 await fetch(
                     serviceURL, {
-                    method: 'POST',
+                    method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
+                    body: JSON.stringify({ cname: cname, ccnumber:ccnumber, expmonth:expmonth, expyear:expyear, cvv:cvv })
                 });
 
             const data = await response.json();
@@ -276,7 +287,20 @@ background-color : #d1d1d1;
                 window.location.replace(homeURL);
                 return false;
             } else {
-                // console.log(data);
+                console.log(data);
+                addBook = 
+                "<tbody>" +
+                "<tr>" +
+                "<td>" + cname + "</td>" + 
+                "<td>" + ccnumber + "</td>" +
+                "<td>" + expmonth+ "</td>" +
+                "<td>" + expyear + "</td>" +
+                "<td>" + cvv + "</td>" +
+
+                "</tr>" +
+                "</body>"
+                $("#tableresults").append( addBook );
+
                 showError(data.message);
             }
         } catch (error) {
@@ -290,5 +314,4 @@ background-color : #d1d1d1;
 
 </script>
 </body>
-</head>
 </html>

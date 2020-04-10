@@ -6,6 +6,7 @@ import random
 import pika
 import json
 import time
+import os
 import multiprocessing
 import atexit
 import datetime
@@ -18,10 +19,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-hostname = "localhost"
-port = 5672
+# hostname = "localhost"
+# port = 5672
+url=os.environ.get('CLOUDAMQP_URL', 'amqp://sbxhlzzm:q42q4qSoxVcLot-eh0-7XCICIM88hjX-@hornet.rmq.cloudamqp.com/sbxhlzzm')
+params = pika.URLParameters(url)
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+#connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+connection = pika.BlockingConnection(params)
 
 channel = connection.channel()
 
@@ -85,6 +89,13 @@ def send_order_to_driver(driver_id, orderid, address):
     channel.queue_bind(exchange=exchangename, queue="driver", routing_key=driver_id+".driver")        
     channel.basic_publish(exchange=exchangename, routing_key=driver_id+".driver", body=json.dumps(["order",[orderid, address]]),
         properties=pika.BasicProperties(delivery_mode=2))
+
+def send_completion_to_order(message):
+    channel.queue_declare(queue="order", durable=True)
+    channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
+    return channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(message),
+        properties=pika.BasicProperties(delivery_mode=2))
+
 
 def assign_driver_to_order(newjob):
     available_drivers=Driver_Info.query.filter_by(dstatus="Available").all()
@@ -152,11 +163,15 @@ def callback(channel, method, properties, body):
             error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
             print(error)
         #notify order
-        print("Completed order", completed_orderid, "has been sent to Order MS")
-        # channel.queue_declare(queue="order", durable=True)
-        # channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
-        # channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
-        # properties=pika.BasicProperties(delivery_mode=2))
+        try:
+            msg="Message from Delivery MS: Order "+completed_orderid+" has been delivered."
+            print("Completed order", completed_orderid, "has been sent to Order MS")
+            channel.queue_declare(queue="order", durable=True)
+            channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
+            channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
+            properties=pika.BasicProperties(delivery_mode=2))
+        except:
+            print("Error writing to Order MS.")
 
 def worker_check_unassignedjobs(incompletejobs):
     while (True):
