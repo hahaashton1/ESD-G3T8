@@ -141,127 +141,14 @@ span.price {
 </head>
 <body>
 
-
-<script>
-  
-  
-  function showError(message) {
-        // Display an error under the the predefined label with error as the id
-        $('#error').text(message);
-    }
-
-    $("#subtotalForm").submit(async (event) => {
-        //Prevents screen from refreshing when submitting
-        event.preventDefault();
-
-        var serviceURL = "http://127.0.0.1:5000/order.py";
-        var homeURL = "http://127.0.0.1/index.php";
-
-        //Get form data 
-
-        var telegram_id = $('#telegram_id').val();
-        var email = $('#email').val();
-        var name = $('#name').val();
-        var quantity = $('#telegram_id').val();
-        var price = $('#price').val();
-        var address = $('#address').val();
-        var phone = $('#phone').val();
-        var region = $('#region').val();
-
-        serviceURL = "http://127.0.0.1:5000/order";
-
-        // form the POST url which includes the dynamic isbnNumber
-        try {
-            const response =
-                await fetch(
-                    serviceURL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
-                });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                // relocate to home page
-                window.location.replace(homeURL);
-                return false;
-            } else {
-              showError(data.message);
-            }
-        } catch (error) {
-            // Errors when calling the service; such as network error, 
-            // service offline, etc
-            showError
-                ("There is a problem submiting your order, please try again later. " + error);
-
-        } // error
-    });
-
-             
-
-
-
-
-
-  // var myFunction = document.getElementById("myFunction");
-  // myFunction.onclick function() {
-  //   alert("Transaction completed");
-  //   // window.location(href = 'index.php');
-  // }
-
-
-//   $("#formbutton").click(function() { 
-//     $(async() => {     
-
-// //event.preventDefault();
-
-//             // var cname = $('#cname').val();
-//             // var ccnumber = $('#ccnumber').val();
-//             // var expmonth= $('#expmonth').val();
-//             // var expyear = $('#expyear').val();
-//             // var cvv = $('#cvv').val();
-
-
-//             console.log(name);
-
-
-
-//             var serviceURL = "http://127.0.0.1:5000/order";
-
-//             try {
-//                 const response =
-//                     await fetch(
-//                         serviceURL, {
-//                         method: 'POST',
-//                         headers: { "Content-Type": "application/json" },
-//                         body: JSON.stringify({ telegram_id: telegram_id, email: email, name:name, quantity:quantity, price:price, address:address, phone:phone, postalCode: postalCode })
-//                     });
-//                 const data = await response.json();
-//                 //var books = data.books; //the arr is in data.books of the JSON data
-//                 //console.log("This is happening");
-//                 console.log(data)
-
-//                 // array or array.length are falsy
-//             } catch (error) {
-//                 // Errors when calling the service; such as network error, 
-//                 // service offline, etc
-//                   showError('ERRRRRRRRRRRRRRROR.<br />'+error);
-              
-//             } // error
-//             });
-//   })
-
-  </script>
-
 <div class = 'center'>
 <h2> Checkout Form</h2> 
   <div id="left">
   <!-- <div class="container"> -->
 
-      <!-- <form id="checkoutForm"> -->
+      <form id="checkoutForm">
         <h3>Order Details</h3>
-        <form id = 'form1' action = "subtotal.php" method = 'POST'>
+        <form id = 'form1' action = "subtotal.php" method = "POST">
         <label for="name">Name </label>
         <input type="text" id = 'name' name="name" value="<?php echo $_POST['name'];?>" readonly />
         
@@ -282,10 +169,18 @@ span.price {
 
         <label for="region">Region</label>
         <input type="text" id = 'region' name="region" value="<?php echo $_POST['region'];?>" readonly />
-
         <label for="price">Delivery Pricing</label>
-        <input type="text" id = 'price' name="price" id="price" value="<?php echo $_POST['price'];?>" readonly />
-        
+        <input type="text" id = 'price' name="price" id="price" value=" <?php
+            $total = 0;
+            $quantity = $_POST['quantity'];
+            $quantity = (int) $quantity;
+            $price = $_POST['price'];
+            $price = (float) $price;
+
+            $total = $quantity * 3 + $price;
+    
+          ?>" readonly />
+      
       
       </div>
 
@@ -308,21 +203,103 @@ span.price {
 
         <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
-                <button class = 'contacts-btn' >
+                <button id ='submitBtn' class = 'contacts-btn' name = 'submit'>Continue to Checkout</button>
+                <!-- <button class = 'contacts-btn' >
                   <a id = 'submitBtn' name = 'submit'>Continue to Checkout</a>
-                </button>
-              </div>
+                </button> -->
+            </div>
             </div>
 
         <!-- <button type="submit" id = "formbutton">Continue to checkout</button> -->
+        <!-- <table id="tableresults" class='table table-striped'>
+        <tr>
+            <th>name</th>
+            <th>email</th>
+            <th>phone</th>
+            <th>address</th>
+            <th>quantity</th>
+            <th>price</th>
+            <th>region</th>
+            <th>Telegram Id </th> -->
+</form>
+</form>
 
-        </form>
-
-       
-  </div>
-  </div>
   
 
+
+
+<script>
+  function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);}
+
+    $(function() {
+    $("#checkoutForm").submit(async (event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
+
+
+        //Get form data 
+
+        var telegram_id = $('#telegram_id').val();
+        var email = $('#email').val();
+        var name = $('#name').val();
+        var quantity = $('#telegram_id').val();
+        var price = $('#price').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+        var region = $('#region').val();
+
+        serviceURL = "http://127.0.0.1:5000/order";
+        var subtotalURL = "http://127.0.0.1/subtotal.php";
+
+        // form the POST url which includes the dynamic isbnNumber
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
+                });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // relocate to home page
+                window.location.replace(subtotalURL);
+                return false;
+            } else {
+                // console.log(data);
+                // addBook = 
+                // "<tbody>" +
+                // "<tr>" +
+                // "<td>" + cname + "</td>" + 
+                // "<td>" + ccnumber + "</td>" +
+                // "<td>" + expmonth+ "</td>" +
+                // "<td>" + expyear + "</td>" +
+                // "<td>" + cvv + "</td>" +
+
+                // "</tr>" +
+                // "</body>"
+                // $("#tableresults").append( addBook );
+
+              showError(data.message);
+            }
+            } 
+        catch (error){
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem submiting your order, please try again later. " + error);
+
+        } // error
+    });
+    }
+    );
+          
+
+  </script>
 </body>
 </html>
 
