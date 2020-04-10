@@ -144,18 +144,21 @@ background-color : #d1d1d1;
 
 }
 
-
 </style>
 </head>
 
+
+
+
 <body>
+
 
 <div class = 'center'>
 <h2> Checkout Form</h2> 
   <div id="left">
   <!-- <div class="input-box"> -->
 
-      <form id="subtotalForm">
+      <!-- <form id="subtotalForm"> -->
         <h3>Order Details</h3>
         <form id = 'form1' action = "subtotal.php" method = 'POST'>
         <label for="name">Name </label>
@@ -230,13 +233,14 @@ background-color : #d1d1d1;
               </div>
             </div>
       </div>
-      <table id="tableresults" class='table table-striped'>
+      </form>
+      <!-- <table id="tableresults" class='table table-striped'>
         <tr>
             <th>cname</th>
             <th>ccnumber</th>
             <th>expmonth</th>
             <th>expyear</th>
-            <th>cvv</th>
+            <th>cvv</th> -->
 
         </tr>  
     </table>
@@ -247,70 +251,70 @@ background-color : #d1d1d1;
 </div>
 
 <script>
- function showError(message) {
-        // Display an error under the the predefined label with error as the id
-        $('#error').text(message);
-    }
+//  function showError(message) {
+//         // Display an error under the the predefined label with error as the id
+//         $('#error').text(message);
+//     }
 
-    $("#subtotalForm").submit(async (event) => {
-        //Prevents screen from refreshing when submitting
-        event.preventDefault();
+//     $("#subtotalForm").submit(async (event) => {
+//         //Prevents screen from refreshing when submitting
+//         event.preventDefault();
 
-        var serviceURL = "http://127.0.0.1:5000/order.py";
-        var homeURL = "http://127.0.0.1/index.php";
+//         var serviceURL = "http://127.0.0.1:5000/order.py";
+//         var homeURL = "http://127.0.0.1/index.php";
 
-        //Get form data 
+//         //Get form data 
 
-        var cname = $('#cname').val();
-        var ccnumber = $('#ccnumber').val();
-        var expmonth= $('#expmonth').val();
-        var expyear = $('#expyear').val();
-        var cvv = $('#cvv').val();
+//         var cname = $('#cname').val();
+//         var ccnumber = $('#ccnumber').val();
+//         var expmonth= $('#expmonth').val();
+//         var expyear = $('#expyear').val();
+//         var cvv = $('#cvv').val();
 
 
-        serviceURL = "http://127.0.0.1:5000/order";
+//         serviceURL = "http://127.0.0.1:5000/order";
 
-        // form the POST url which includes the dynamic isbnNumber
-        try {
-            const response =
-                await fetch(
-                    serviceURL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ cname: cname, ccnumber:ccnumber, expmonth:expmonth, expyear:expyear, cvv:cvv })
-                });
+//         // form the POST url which includes the dynamic isbnNumber
+//         try {
+//             const response =
+//                 await fetch(
+//                     serviceURL, {
+//                     method: "POST",
+//                     headers: { "Content-Type": "application/json" },
+//                     body: JSON.stringify({ cname: cname, ccnumber:ccnumber, expmonth:expmonth, expyear:expyear, cvv:cvv })
+//                 });
 
-            const data = await response.json();
+//             const data = await response.json();
 
-            if (response.ok) {
-                // relocate to home page
-                window.location.replace(homeURL);
-                return false;
-            } else {
-                console.log(data);
-                addBook = 
-                "<tbody>" +
-                "<tr>" +
-                "<td>" + cname + "</td>" + 
-                "<td>" + ccnumber + "</td>" +
-                "<td>" + expmonth+ "</td>" +
-                "<td>" + expyear + "</td>" +
-                "<td>" + cvv + "</td>" +
+//             if (response.ok) {
+//                 // relocate to home page
+//                 window.location.replace(homeURL);
+//                 return false;
+//             } else {
+//                 console.log(data);
+//                 addBook = 
+//                 "<tbody>" +
+//                 "<tr>" +
+//                 "<td>" + cname + "</td>" + 
+//                 "<td>" + ccnumber + "</td>" +
+//                 "<td>" + expmonth+ "</td>" +
+//                 "<td>" + expyear + "</td>" +
+//                 "<td>" + cvv + "</td>" +
 
-                "</tr>" +
-                "</body>"
-                $("#tableresults").append( addBook );
+//                 "</tr>" +
+//                 "</body>"
+//                 $("#tableresults").append( addBook );
 
-                showError(data.message);
-            }
-        } catch (error) {
-            // Errors when calling the service; such as network error, 
-            // service offline, etc
-            showError
-                ("There is a problem submiting your order, please try again later. " + error);
+//                 showError(data.message);
+//             }
+//         } catch (error) {
+//             // Errors when calling the service; such as network error, 
+//             // service offline, etc
+//             showError
+//                 ("There is a problem submiting your order, please try again later. " + error);
 
-        } // error
-    });
+//         } // error
+//     });
 
 </script>
 </body>
