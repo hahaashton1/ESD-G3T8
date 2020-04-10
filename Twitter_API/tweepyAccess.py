@@ -13,7 +13,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esm'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
