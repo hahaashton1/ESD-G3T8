@@ -29,8 +29,6 @@ def purge_all():
         sqldrop = filter(None, sqldrop.split(';'))
 
         for i in sqldrop:
-            # strip() removes leading and trailing white spaces  
-            # semicolon is re-added per line for query run
             cursor.execute(i.strip() + ';')
         conn.commit()
         print("Purged")

@@ -150,7 +150,6 @@ def callback(channel, method, properties, body):
     elif (key=="completed"):
         completed_userid=message[0]
         completed_orderid=message[1]
-        #EDIT THIS
         print("Order", completed_orderid, "has been delivered by", completed_userid)
         #release driver
         Driver_Info.query.filter_by(did=completed_userid).first().dstatus="Available"
@@ -164,12 +163,15 @@ def callback(channel, method, properties, body):
             error = telegram_bot_sendtext(thisJob.telegram, thisJob.OrderID, "Your order has been delivered!")
             print(error)
         #notify order
-        msg="Message from Delivery MS: Order "+completed_orderid+" has been delivered."
-        print("Completed order", completed_orderid, "has been sent to Order MS")
-        # channel.queue_declare(queue="order", durable=True)
-        # channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
-        # channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
-        # properties=pika.BasicProperties(delivery_mode=2))
+        try:
+            msg="Message from Delivery MS: Order "+completed_orderid+" has been delivered."
+            print("Completed order", completed_orderid, "has been sent to Order MS")
+            channel.queue_declare(queue="order", durable=True)
+            channel.queue_bind(exchange=exchangename, queue="order", routing_key="order")        
+            channel.basic_publish(exchange=exchangename, routing_key="order", body=json.dumps(["order_complete",[completed_orderid, "Order has been delivered!"]]),
+            properties=pika.BasicProperties(delivery_mode=2))
+        except:
+            print("Error writing to Order MS.")
 
 def worker_check_unassignedjobs(incompletejobs):
     while (True):

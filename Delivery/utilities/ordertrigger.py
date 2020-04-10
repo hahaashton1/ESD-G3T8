@@ -26,7 +26,7 @@ def trigger_ashton_order():
     orderid = 1
     orderaddress= "Block 123 Ang Mo Kio Avenue 3 #01-01 Singapore 560123"
     ordertelegram="485352799"
-    send_order(orderid, orderaddress, )
+    send_order(orderid, orderaddress, ordertelegram)
 
 def trigger_order(): #temporary function to trigger order
     ordernumber = random.randint(0,2147483640)
