@@ -172,19 +172,20 @@ span.price {
         <label for="price">Delivery Pricing</label>
         <input type="text" id = 'price' name="price" value="<?php echo $_POST['price'];?>" readonly />
 
-       
-          
+        <div id = 'right'>
+          <h3>SubTotal</h3>
+      
+            <!-- // $quantity = $_POST['quantity'];
+            // $quantity = (int) $quantity;
+            // $price = $_POST['price'];
+            // $price = (float) $price;
+
+            // $total = $quantity * 3 + $price; -->
+    
+         
 
           <label for="total">Subtotal (incl. delivery)</label>
-          <input type="text" id="total" name="total" placeholder = "$ <?php
-            $quantity = $_POST['quantity'];
-            $quantity = (int) $quantity;
-            $price = $_POST['price'];
-            $price = (float) $price;
-
-            $total = $quantity * 3 + $price;
-    
-          ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
+          <input type="text" id="total" name="total" placeholder = "$ <?php echo $_POST['quantity'] * 3 + $_POST['price'] ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
 </div>
       <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
