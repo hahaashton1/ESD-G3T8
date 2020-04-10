@@ -268,7 +268,7 @@
   </style>
 
 <?php
-    $link = mysqli_connect("localhost", "root", "", "Twitter_API");
+    $link = mysqli_connect("orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com", "admin", "password", "cc_twitter");
 
     if($link === false){
       die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -381,7 +381,7 @@
 
             <div class="col-md-6 col-sm-6 contact-form pad-form">
               <div class="form-group">
-                <input type="text" class="form-control label-floating is-empty" name="telegram_id" id="telegram_id" placeholder="Telegram Handle" data-rule="email" data-msg="Please enter a valid telegram handle" />
+                <input type="text" class="form-control label-floating is-empty" name="telegram_id" id="telegram_id" placeholder="Telegram ID" data-rule="email" data-msg="Please enter a valid telegram handle" />
                 <div class="validation"></div>
               </div>
             </div>
