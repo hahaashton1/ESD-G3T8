@@ -65,7 +65,7 @@ class Order(db.Model):
 def pay():
     
     order = Order.query.order_by(Order.order_id.desc()).first()
-    price = order.price
+    price = order.price * 100
 
     customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
     charge = stripe.Charge.create(
@@ -80,11 +80,12 @@ def pay():
         order.status = "Paid"
         db.session.commit()
 
-        print("Payment successful!")
+        ##print("Payment successful!")
         return "Payment successful!", 200
+        ##return redirect("index.php"), 200
     
     else:
-        print("Payment was unsuccessful!")
+        ##print("Payment was unsuccessful!")
         return "Payment was unsuccessful!", 500
 
 
@@ -110,7 +111,7 @@ def add_order():
         ## Don't know why it is triggering this even though it is successful
         return "ERROR: Order cannot be created!", 500
  
-    return "Order has been created!", 201
+    return "Order has been created!", 200
 
 if __name__ == '__main__':
 
