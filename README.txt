@@ -35,4 +35,8 @@ Schema: delivery1cc
 
 
 DeliveryPricing, Twitter and Order Microservice Database
-Endpoint: 
+Endpoint: orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com
+Username: admin
+Password:password
+Port: 3306
+Schema: cc_pricing, cc_twitter, 200cc
