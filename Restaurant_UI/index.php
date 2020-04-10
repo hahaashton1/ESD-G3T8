@@ -268,7 +268,7 @@
   </style>
 
 <?php
-    $link = mysqli_connect("localhost", "root", "", "Twitter_API");
+    $link = mysqli_connect("orders-db.cvjwtqqbkq8r.ap-southeast-1.rds.amazonaws.com", "admin", "password", "cc_twitter");
 
     if($link === false){
       die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -562,7 +562,7 @@
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
                 showError
-                ('There is a problem retrieving books data, please try again later.<br />'+error);
+                ('An error was found.<br />'+error);
            
         } // error
     });
