@@ -562,7 +562,7 @@
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
                 showError
-                ('There is a problem retrieving books data, please try again later.<br />'+error);
+                ('An error was found.<br />'+error);
            
         } // error
     });
