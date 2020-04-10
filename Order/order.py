@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, request, redirect
+from flask import Flask, request, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy 
 from flask_cors import CORS
 import pika
@@ -58,26 +58,36 @@ class Order(db.Model):
     address = db.Column(db.String(200))
     phone = db.Column(db.Integer)
     region = db.Column(db.String(200))
+    status = db.Column(db.String(200))
 
-# class Transactions(db.Model):
-#     __tablename__ = 'transactions'
-#     tran_id = db.Column(db.Integer, primary_key = True, autoincrement=True)
-#     order_id = db.Column(db.Integer, ForeignKey('Order.order_id'))
-#     quantity = db.Column(db.Integer)
-#     price = db.Column(db.Integer)
-#     amount = db.Column(db.Integer)
-#     ##time = db.Column(datetime.now())
 
 @app.route('/pay', methods=['POST'])
 def pay():
     
+    order = Order.query.order_by(Order.order_id.desc()).first()
+    price = order.price
+
     customer = stripe.Customer.create(email=request.form['stripeEmail'], source=request.form['stripeToken'])
     charge = stripe.Charge.create(
         customer=customer.id,
-        amount=19900,
-        currency='usd',
-        description='The Product'
+        amount=price,
+        currency='sgd',
+        description='Cupcake'
     )
+    if(charge):
+        ## Updates status to paid when
+        order = Order.query.order_by(Order.order_id.desc()).first()
+        order.status = "Paid"
+        db.session.commit()
+
+        print("Payment successful!")
+        return "Payment successful!", 200
+    
+    else:
+        print("Payment was unsuccessful!")
+        return "Payment was unsuccessful!", 500
+
+
  
 @app.route("/order", methods=['POST'])
 def add_order():
