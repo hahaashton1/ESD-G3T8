@@ -170,6 +170,7 @@ span.price {
         <label for="region">Region</label>
         <input type="text" id = 'region' name="region" value="<?php echo $_POST['region'];?>" readonly />
         <label for="price">Delivery Pricing</label>
+        <input type="text" id = 'region' name="region" value="<?php echo $_POST['delivery_pricing'];?>" readonly />
         <input type="text" id = 'price' name="price" id="price" value=" <?php
             $total = 0;
             $quantity = $_POST['quantity'];
@@ -181,51 +182,36 @@ span.price {
     
           ?>" readonly />
       
-      
-      </div>
-
-
-      
-      <div id = 'right'>
-        <h3>Payment</h3>
-        
-        <label for="cname">Name on Card</label>
-        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
-        <label for="ccnum">Credit card number</label>
-        <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-        <label for="expmonth">Exp Month</label>
-        <input type="text" id="expmonth" name="expmonth" placeholder="September">
-        <label for="expyear">Exp Year</label>
-        <input type="text" id="expyear" name="expyear" placeholder="2018">
-        <label for="cvv">CVV</label>
-        <input type="text" id="cvv" name="cvv" placeholder="352">
- 
-
-        <div class="col-md-12 btnpad">
+      <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
                 <button id ='submitBtn' class = 'contacts-btn' name = 'submit'>Continue to Checkout</button>
                 <!-- <button class = 'contacts-btn' >
                   <a id = 'submitBtn' name = 'submit'>Continue to Checkout</a>
                 </button> -->
             </div>
-            </div>
-
-        <!-- <button type="submit" id = "formbutton">Continue to checkout</button> -->
-        <!-- <table id="tableresults" class='table table-striped'>
-        <tr>
-            <th>name</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>address</th>
-            <th>quantity</th>
-            <th>price</th>
-            <th>region</th>
-            <th>Telegram Id </th> -->
-</form>
+        </div>
+      </div>
+    </form>
 </form>
 
-  
-
+      <div id = 'right'>
+        <h3>Payment</h3>
+        <div class="jumbotron">
+        <h1 class="display-3">200cc Cupcakes</h1>
+        <p class="lead">Click button below to purchase!</p>
+        <form action="http://127.0.0.1:5000/pay" method="POST">
+          <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_3OCjoxezQuwnmuEaYecZaWeb00wfwTEIaN"
+            data-amount=""
+            data-name="200 Cupcakes"
+            data-description="Widget"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-currency="sgd"
+            data-locale="auto">
+          </script>
+        </form>
+        </div>
 
 
 <script>
@@ -249,6 +235,7 @@ span.price {
         var address = $('#address').val();
         var phone = $('#phone').val();
         var region = $('#region').val();
+        var status = "Unpaid"
 
         serviceURL = "http://127.0.0.1:5000/order";
         var subtotalURL = "http://127.0.0.1/subtotal.php";
@@ -260,32 +247,16 @@ span.price {
                     serviceURL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
+                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region, status:status, })
                 });
 
             const data = await response.json();
 
             if (response.ok) {
-                // relocate to home page
-                window.location.replace(subtotalURL);
-                return false;
+
             } else {
-                // console.log(data);
-                // addBook = 
-                // "<tbody>" +
-                // "<tr>" +
-                // "<td>" + cname + "</td>" + 
-                // "<td>" + ccnumber + "</td>" +
-                // "<td>" + expmonth+ "</td>" +
-                // "<td>" + expyear + "</td>" +
-                // "<td>" + cvv + "</td>" +
-
-                // "</tr>" +
-                // "</body>"
-                // $("#tableresults").append( addBook );
-
               showError(data.message);
-            }
+              }
             } 
         catch (error){
             // Errors when calling the service; such as network error, 
