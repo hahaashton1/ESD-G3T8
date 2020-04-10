@@ -170,8 +170,11 @@ span.price {
         <label for="region">Region</label>
         <input type="text" id = 'region' name="region" value="<?php echo $_POST['region'];?>" readonly />
         <label for="price">Delivery Pricing</label>
-        <input type="text" id = 'region' name="region" value="<?php echo $_POST['delivery_pricing'];?>" readonly />
-        <input type="text" id = 'price' name="price" id="price" value=" <?php
+        <input type="text" id = 'price' name="price" value="<?php echo $_POST['price'];?>" readonly />
+
+        <div id = 'right'>
+          <h3>SubTotal</h3>
+          <?php
             $total = 0;
             $quantity = $_POST['quantity'];
             $quantity = (int) $quantity;
@@ -180,7 +183,10 @@ span.price {
 
             $total = $quantity * 3 + $price;
     
-          ?>" readonly />
+          ?>
+
+          <label for="cname">Subtotal (incl. delivery)</label>
+          <input type="text" id="cname" name="cardname" placeholder = "$ <?php echo $total; ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
       
       <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
