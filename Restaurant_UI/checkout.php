@@ -185,8 +185,8 @@ span.price {
     
           ?>
 
-          <label for="cname">Subtotal (incl. delivery)</label>
-          <input type="text" id="cname" name="cardname" placeholder = "$ <?php echo $total; ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
+          <label for="total">Subtotal (incl. delivery)</label>
+          <input type="text" id="total" name="total" placeholder = "$ <?php echo $total; ?>" style="background-color: #FFE9CC; border:2px solid #000000; " readonly>
       
       <div class="col-md-12 btnpad">
               <div class="contacts-btn-pad">
@@ -237,7 +237,7 @@ span.price {
         var email = $('#email').val();
         var name = $('#name').val();
         var quantity = $('#telegram_id').val();
-        var price = $('#price').val();
+        var price = $('#total').val();
         var address = $('#address').val();
         var phone = $('#phone').val();
         var region = $('#region').val();
