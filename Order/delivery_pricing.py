@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 CORS(app)
 
 class distancePrice(db.Model):
-    __tablename__ = 'DistancePrice' 
+    __tablename__ = 'distanceprice' 
  
     
     region_name = db.Column(db.String(100), primary_key=True)
@@ -30,14 +30,6 @@ def get_all():
 	return jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]})
 
 # print(jsonify({"prices": [distancePrice.json() for distancePrice in distancePrice.query.all()]}))
-
-@app.route("/delivery_pricing/<string:postal>")
-def find_by_postal(postal):
-    postal = postal[:2] #Retrieve the Postal Sector (1st 2 digits of 6-digit postal codes)
-    delivery_pricing = distancePrice.query.filter_by(postal=postal).first()
-    if delivery_pricing:
-        return jsonify(delivery_pricing.json())
-    return jsonify({"message": "Postal not found."}), 404
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
