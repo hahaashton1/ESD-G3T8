@@ -13,7 +13,7 @@ If you wish to run on server, pls contact @tsueanne to start the service for you
 If you wish to run on localhost, build the dockerfile at \Delivery\delivery_ms and run the container.
 
 Build the container at \Delivery\driver_ui\ and use it to run the Driver microservice.
-You can run up to 3 instances of driver.py with the following details:
+You can run up to 3 instances of driver.py with the following test details:
 DriverID: D0001
 DriverID: D0002
 DriverID: D0003
