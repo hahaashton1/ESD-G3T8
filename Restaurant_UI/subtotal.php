@@ -232,16 +232,11 @@ background-color : #d1d1d1;
       </div>
       <table id="tableresults" class='table table-striped'>
         <tr>
-            <th>name</th>
-            <th>email</th>
-            <th>phone</th>
-            <th>address</th>
-            <th>quantity</th>
-            <th>price</th>
-            <th>region</th>
-            <th>Telegram Id </th>
-
-
+            <th>cname</th>
+            <th>ccnumber</th>
+            <th>expmonth</th>
+            <th>expyear</th>
+            <th>cvv</th>
 
         </tr>  
     </table>
@@ -261,30 +256,19 @@ background-color : #d1d1d1;
         //Prevents screen from refreshing when submitting
         event.preventDefault();
 
-        var serviceURL = "http://127.0.0.1:5000/order1.py";
+        var serviceURL = "http://127.0.0.1:5000/order.py";
         var homeURL = "http://127.0.0.1/index.php";
 
         //Get form data 
 
-        var telegram_id = $('#telegram_id').val();
-        var email = $('#email').val();
-        var name = $('#name').val();
-        var quantity = $('#telegram_id').val();
-        var price = $('#price').val();
-        var address = $('#address').val();
-        var phone = $('#phone').val();
-        var region = $('#region').val();
+        var cname = $('#cname').val();
+        var ccnumber = $('#ccnumber').val();
+        var expmonth= $('#expmonth').val();
+        var expyear = $('#expyear').val();
+        var cvv = $('#cvv').val();
 
-        // var telegram_id = $_POST['telegram_id'];
-        // var email = $_POST['email'];
-        // var name = $_POST['name'];
-        // var quantity = $_POST['quantity'];
-        // var price = $_POST['price'];
-        // var address = $_POST['address'];
-        // var phone = $_POST['phone'];
-        // var region = $_POST['region'];
 
-        serviceURL = "http://127.0.0.1:5000/order1";
+        serviceURL = "http://127.0.0.1:5000/order";
 
         // form the POST url which includes the dynamic isbnNumber
         try {
@@ -293,7 +277,7 @@ background-color : #d1d1d1;
                     serviceURL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
+                    body: JSON.stringify({ cname: cname, ccnumber:ccnumber, expmonth:expmonth, expyear:expyear, cvv:cvv })
                 });
 
             const data = await response.json();
@@ -307,14 +291,11 @@ background-color : #d1d1d1;
                 addBook = 
                 "<tbody>" +
                 "<tr>" +
-                "<td>" + name + "</td>" + 
-                "<td>" + email + "</td>" +
-                "<td>" + phone+ "</td>" +
-                "<td>" + address + "</td>" +
-                "<td>" + quantity + "</td>" +
-                "<td>" + price + "</td>" +
-                "<td>" + region + "</td>" +
-                "<td>" + telegram_id + "</td>" +
+                "<td>" + cname + "</td>" + 
+                "<td>" + ccnumber + "</td>" +
+                "<td>" + expmonth+ "</td>" +
+                "<td>" + expyear + "</td>" +
+                "<td>" + cvv + "</td>" +
 
                 "</tr>" +
                 "</body>"

@@ -145,72 +145,64 @@ span.price {
 <script>
   
   
-// $('#priceTable').hide();
-   
+  function showError(message) {
+        // Display an error under the the predefined label with error as the id
+        $('#error').text(message);
+    }
 
+    $("#subtotalForm").submit(async (event) => {
+        //Prevents screen from refreshing when submitting
+        event.preventDefault();
 
-  //  // Helper function to display error message
-  //  function showError(message) {
-  //      // Hide the table and button in the event of error
-  //      $("#priceTable").hide();
-  //      // $('#addBookBtn').hide();
+        var serviceURL = "http://127.0.0.1:5000/order.py";
+        var homeURL = "http://127.0.0.1/index.php";
 
-  //      // Display an error under the main container
-  //      $("#main-container")
-  //          .append("<label>"+message+"</label>");
-  //  }
+        //Get form data 
 
-   // anonymous async function 
-   // - using await requires the function that calls it to be async
-     
-//    $(async() => { 
-//          // Change serviceURL to your own
-//        var serviceURL = "http://127.0.0.1:5000/delivery_price";
+        var telegram_id = $('#telegram_id').val();
+        var email = $('#email').val();
+        var name = $('#name').val();
+        var quantity = $('#telegram_id').val();
+        var price = $('#price').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+        var region = $('#region').val();
 
-//        try {
-//            const response =
-//             await fetch(
-//               serviceURL, { method: 'GET' }
-//            );
-//            const data = await response.json();
-//            var prices = data.prices; //the arr is in data.books of the JSON data
+        serviceURL = "http://127.0.0.1:5000/order";
 
-//            // array or array.length are falsy
-//            if (!prices || !prices.length) {
-//                showError('Books list empty or undefined.');
-//            } 
-//            else {
-//                // for loop to setup all table rows with obtained book data
-//                var rows = "";
-//                var foundPrice = "";
+        // form the POST url which includes the dynamic isbnNumber
+        try {
+            const response =
+                await fetch(
+                    serviceURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ telegram_id: telegram_id, email:email, name:name, quantity: quantity,price:price , address:address, phone:phone , region:region,  })
+                });
 
-//                for (const one_price of prices) {
-//                    eachRow =
-//                        "<td>" + one_price.region_name + "</td>" +
-//                        "<td>" + one_price.price + "</td>" ;
-//                    rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+            const data = await response.json();
 
-//                    eachPrice = "<option value=" + one_price.region_name +">";
-//                    foundPrice += eachPrice;
-//                }
-//                // add all the rows to the table
-//                $("#priceTable").append(rows);
-//               //  $("#delivery_price").append( foundPrice );
+            if (response.ok) {
+                // relocate to home page
+                window.location.replace(homeURL);
+                return false;
+            } else {
+              showError(data.message);
+            }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError
+                ("There is a problem submiting your order, please try again later. " + error);
+
+        } // error
+    });
+
              
 
-//            }
-
-//            document.getElementByID("price").value = prices[<?$_POST['region']?>];
 
 
-//        } catch (error) {
-//            // Errors when calling the service; such as network error, 
-//            // service offline, etc
-//            showError
-//            ('There is a problem retrieving books data, please try again later.<br />'+error);
-      
-//    } // error
-// // });
+
 
   // var myFunction = document.getElementById("myFunction");
   // myFunction.onclick function() {
@@ -224,15 +216,11 @@ span.price {
 
 // //event.preventDefault();
 
-//             // var telegram_id = $('#telegram_id').val();
-//             // var email = $('#email').val();
-//             // var name = $('#name').val();
-//             // var quantity = $('#quantity').val();
-//             // var price = $('#price').val();
-//             // var address = $('#address').val();
-//             // var phone = $('#phone').val();
-//             // var postalCode = $('#postalCode').val();
-
+//             // var cname = $('#cname').val();
+//             // var ccnumber = $('#ccnumber').val();
+//             // var expmonth= $('#expmonth').val();
+//             // var expyear = $('#expyear').val();
+//             // var cvv = $('#cvv').val();
 
 
 //             console.log(name);
@@ -278,25 +266,25 @@ span.price {
         <input type="text" id = 'name' name="name" value="<?php echo $_POST['name'];?>" readonly />
         
         <label for="email">Email </label>
-        <input type="text" name="email" value="<?php echo $_POST['email'];?>" readonly />
+        <input type="text" id = 'email' name="email" value="<?php echo $_POST['email'];?>" readonly />
           
         <label for="telegram">Telegram</label>
-        <input type="text" name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" readonly />
+        <input type="text" id = 'telegram_id' name="telegram_id" value="<?php echo $_POST['telegram_id'];?>" readonly />
           
         <label for="quantity">Quantity</label>
-        <input type="text" name="quantity" value="<?php echo $_POST['quantity'];?>" readonly />
+        <input type="text" id = 'quantity' name="quantity" value="<?php echo $_POST['quantity'];?>" readonly />
           
         <label for="address">Address</label>
-        <input type="text" name="address" value="<?php echo $_POST['address'];?>" readonly />
+        <input type="text" id = 'address' name="address" value="<?php echo $_POST['address'];?>" readonly />
           
         <label for="phone">Phone</label>
-        <input type="text" name="phone" value="<?php echo $_POST['phone'];?>" readonly />
+        <input type="text" id = 'phone' name="phone" value="<?php echo $_POST['phone'];?>" readonly />
 
         <label for="region">Region</label>
-        <input type="text" name="region" value="<?php echo $_POST['region'];?>" readonly />
+        <input type="text" id = 'region' name="region" value="<?php echo $_POST['region'];?>" readonly />
 
-        <label for="price">Delivery price</label>
-        <input type="text" name="price" id="price" value="<?php echo $_POST['price'];?>" readonly />
+        <label for="price">Delivery Pricing</label>
+        <input type="text" id = 'price' name="price" id="price" value="<?php echo $_POST['price'];?>" readonly />
         
       
       </div>
